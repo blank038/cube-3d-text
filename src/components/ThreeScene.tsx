@@ -62,14 +62,14 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
                         content={text1}
                         opts={text1Options}
                         font={loadedFont}
-                        position={[0, 8, 0]}
+                        position={[0, text1Options.y, 0]}
                         ref={text1Ref}
                     />
                     <Text3D
                         content={text2}
                         opts={text2Options}
                         font={loadedFont}
-                        position={[0, -4, 0]}
+                        position={[0, text2Options.y, 0]}
                         ref={text2Ref}
                     />
                 </group>

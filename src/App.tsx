@@ -22,6 +22,7 @@ const App: React.FC = () => {
     const [text1Options, setText1Options] = useState<TextOptions>({
         size: 10,
         depth: 5,
+        y: 8,
         colorGradualStart: "#ffd07b",
         colorGradualEnd: "#ffaa00",
         colorSide: "#553800",
@@ -35,6 +36,7 @@ const App: React.FC = () => {
     const [text2Options, setText2Options] = useState<TextOptions>({
         size: 5,
         depth: 3,
+        y: -4,
         colorGradualStart: "#9ae5ff",
         colorGradualEnd: "#13b2ff",
         colorSide: "#003855",

@@ -1,4 +1,3 @@
-// src/components/Text3D.tsx
 import { forwardRef, useMemo } from "react";
 import * as THREE from "three";
 import { Font } from "three/examples/jsm/loaders/FontLoader.js";
@@ -24,6 +23,9 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
 
     // 创建带有字间距的文字几何体
     const geometry = useMemo(() => {
+        if (!content) {
+            return new THREE.BufferGeometry();
+        }
         const letterSpacing = opts.letterSpacing || 0;
         return createSpacedTextGeometry({
             text: content,
@@ -57,6 +59,10 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
     useMemo(() => {
         const positionAttribute = geometry.getAttribute('position') as THREE.BufferAttribute;
         const normalAttribute = geometry.getAttribute('normal') as THREE.BufferAttribute;
+
+        if (!positionAttribute) {
+            return;
+        }
 
         const groups = [];
         for (let i = 0; i < positionAttribute.count; i += 3) {

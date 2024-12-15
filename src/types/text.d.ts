@@ -1,6 +1,7 @@
 export interface TextOptions {
     size: number;
     depth: number;
+    y: number;
     colorGradualStart: string;
     colorGradualEnd: string;
     colorSide: string;
@@ -8,7 +9,7 @@ export interface TextOptions {
     colorBottomEnd: string;
     outlineColor: string;
     outlineWidth: number;
-    letterSpacing?: number;
+    letterSpacing: number;
 }
 
 export interface CameraOptions {
