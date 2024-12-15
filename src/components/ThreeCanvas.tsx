@@ -1,23 +1,41 @@
 // src/components/ThreeCanvas.tsx
-import { forwardRef, useImperativeHandle } from "react";
+import { forwardRef, useImperativeHandle, useEffect } from "react";
 import * as THREE from "three";
 import { Canvas, useThree } from "@react-three/fiber";
-import { TextOptions } from "../types/text";
+import { TextOptions, CameraOptions } from "../types/text";
 import ThreeScene from "./ThreeScene.tsx";
 
 export interface ThreeCanvasHandle {
     takeScreenshot: () => void;
+    resetCamera: () => void;
 }
 
 interface ThreeCanvasProps {
+    cameraOptions: CameraOptions;
     text1: string;
     text2: string;
     text1Options: TextOptions;
     text2Options: TextOptions;
 }
 
+const CameraController: React.FC<{ fov: number }> = ({ fov }) => {
+    const { camera } = useThree();
+
+    useEffect(() => {
+        // 检查 camera 是否为 PerspectiveCamera 的实例
+        if (camera instanceof THREE.PerspectiveCamera) {
+            camera.fov = fov;
+            camera.updateProjectionMatrix();
+        } else {
+            console.warn("当前相机不是 PerspectiveCamera，无法设置 fov");
+        }
+    }, [fov, camera]);
+
+    return null;
+};
+
 const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref) => {
-    const { text1, text2, text1Options, text2Options } = props;
+    const { text1, text2, text1Options, text2Options, cameraOptions } = props;
 
     // 内部组件，用于定义截图功能
     const Screenshot = () => {
@@ -38,6 +56,11 @@ const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref)
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
+            },
+            resetCamera: () => {
+                camera.position.set(0, -20, 50);
+                camera.lookAt(0, 0, 0);
+                camera.updateProjectionMatrix();
             }
         }));
 
@@ -46,7 +69,7 @@ const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref)
 
     return (
         <Canvas
-            camera={{ position: [0, -20, 50], fov: 75 }}
+            camera={{ position: [0, -20, 50], fov: cameraOptions.fov }}
             gl={{
                 toneMapping: THREE.NoToneMapping, // 可选：更好的色调映射
                 toneMappingExposure: 1, // 调整曝光
@@ -55,6 +78,7 @@ const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref)
             style={{ background: "transparent" }}
         >
             <Screenshot />
+            <CameraController fov={cameraOptions.fov} />
             <ThreeScene
                 text1={text1}
                 text2={text2}

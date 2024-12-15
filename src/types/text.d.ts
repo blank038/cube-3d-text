@@ -10,3 +10,7 @@ export interface TextOptions {
     outlineWidth: number;
     letterSpacing?: number;
 }
+
+export interface CameraOptions {
+    fov: number;
+}
