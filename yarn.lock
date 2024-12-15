@@ -695,17 +695,6 @@
     suspend-react "^0.1.3"
     zustand "^3.7.1"
 
-"@react-three/postprocessing@^2.16.3":
-  version "2.16.3"
-  resolved "https://registry.yarnpkg.com/@react-three/postprocessing/-/postprocessing-2.16.3.tgz#91bad6a541db7573f3100f1c7edf67d22c66413e"
-  integrity sha512-ftodXpUsy0/mzn0KqyV7MBau71dD9C5UOFnB3kHhCLNoxjKYQWZa9do0olJTSkl3owYXRfNHcLriK1Xn8wxZJw==
-  dependencies:
-    buffer "^6.0.3"
-    maath "^0.6.0"
-    n8ao "^1.6.6"
-    postprocessing "^6.32.1"
-    three-stdlib "^2.23.4"
-
 "@rollup/rollup-android-arm-eabi@4.28.1":
   version "4.28.1"
   resolved "https://registry.yarnpkg.com/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.28.1.tgz#7f4c4d8cd5ccab6e95d6750dbe00321c1f30791e"
@@ -1740,11 +1729,6 @@ maath@^0.10.8:
   resolved "https://registry.yarnpkg.com/maath/-/maath-0.10.8.tgz#cf647544430141bf6982da6e878abb6c4b804e24"
   integrity sha512-tRvbDF0Pgqz+9XUa4jjfgAQ8/aPKmQdWXilFu2tMy4GWj4NOsx99HlULO4IeREfbO3a0sA145DZYyvXPkybm0g==
 
-maath@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/maath/-/maath-0.6.0.tgz#7841d0fb95bbb37d19b08b7c5458ef70190950d2"
-  integrity sha512-dSb2xQuP7vDnaYqfoKzlApeRcR2xtN8/f7WV/TMAkBC8552TwTLtOO0JTcSygkYMjNDPoo6V01jTw/aPi4JrMw==
-
 merge2@^1.3.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.4.1.tgz#4368892f885e907455a6fd7dc55c0c9d404990ae"
@@ -1786,11 +1770,6 @@ ms@^2.1.3:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
-
-n8ao@^1.6.6:
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/n8ao/-/n8ao-1.9.3.tgz#f17151400401b4690602a5e66f3c5fe551cf22b0"
-  integrity sha512-OZX+u8LaEfxLi6lupuyT8gIv80D6D8FIeKbBNkCyY0nE+1wmm6sQ4yeyW3a15lFMrfTcEhe0AU8QhhDejHg7sg==
 
 nanoid@^3.3.7:
   version "3.3.8"
@@ -1873,11 +1852,6 @@ postcss@^8.4.49:
     nanoid "^3.3.7"
     picocolors "^1.1.1"
     source-map-js "^1.2.1"
-
-postprocessing@^6.32.1, postprocessing@^6.36.4:
-  version "6.36.4"
-  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.36.4.tgz#f4ad199b31ed08e224bd494df730d552ed882760"
-  integrity sha512-3fAyBGuLNR7Rg/q+f2SNlsVCI5mDrymvxhOif3tPKEej8M38z4TvwzNZm+RNpRY2tACE7qQUNE5IHyMcqgvlAg==
 
 potpack@^1.0.1:
   version "1.0.2"
@@ -2474,7 +2448,7 @@ three-mesh-bvh@^0.7.8:
   resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.7.8.tgz#83156e4d3945734db076de1c94809331481b3fdd"
   integrity sha512-BGEZTOIC14U0XIRw3tO4jY7IjP7n7v24nv9JXS1CyeVRWOCkcOMhRnmENUjuV39gktAw4Ofhr0OvIAiTspQrrw==
 
-three-stdlib@^2.23.4, three-stdlib@^2.34.0, three-stdlib@^2.35.2:
+three-stdlib@^2.34.0, three-stdlib@^2.35.2:
   version "2.35.2"
   resolved "https://registry.yarnpkg.com/three-stdlib/-/three-stdlib-2.35.2.tgz#47037db5bf4abc3163600742604aee922c288aa1"
   integrity sha512-Ns9ZdiFEAsiv8JvHS28Qgxg4YRTq13Ixa4EDUQZhUovZ3j/GLTou4zE887SLSqsuRZwuy3gklttn2ha5JaJpTQ==
