@@ -11,7 +11,7 @@ const { Sider, Content } = Layout;
 const { Panel } = Collapse;
 
 const App: React.FC = () => {
-    const [text1, setText1] = useState("沟通更新");
+    const [text1, setText1] = useState("我的世界");
     const [text2, setText2] = useState("中国版");
 
     // 配置文字的样式
@@ -53,7 +53,7 @@ const App: React.FC = () => {
     return (
         <Layout style={{ height: "100vh" }}>
             {/* 左侧配置面板 */}
-            <Sider width={300} style={{ background: "#fff", padding: 16, overflow: "auto" }}>
+            <Sider width={300} style={{ background: "#F5F5F5", padding: 16, overflow: "auto" }}>
                 <Form layout="vertical">
                     <Collapse defaultActiveKey={["1", "2"]}>
                         {/* 第一行文字 */}
