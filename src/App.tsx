@@ -28,8 +28,8 @@ const App: React.FC = () => {
         colorSide: "#553800",
         colorBottomStart: "#a56c00",
         colorBottomEnd: "#553800",
-        outlineColor: "#000000",
-        outlineWidth: 5,
+        outlineColor: "#291a00",
+        outlineWidth: 0.6,
         letterSpacing: 1.0
     });
 
@@ -42,8 +42,8 @@ const App: React.FC = () => {
         colorSide: "#003855",
         colorBottomStart: "#00649a",
         colorBottomEnd: "#003855",
-        outlineColor: "#000000",
-        outlineWidth: 2,
+        outlineColor: "#001e2b",
+        outlineWidth: 0.4,
         letterSpacing: 1.0
     });
 

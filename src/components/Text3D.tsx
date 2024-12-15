@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { Font } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextOptions } from "../types/text";
 import { createCubeMaterial } from "../utils/textMaterial.ts";
-import { createSpacedTextGeometry } from "../utils/createSpacedTextGeometry.ts";
+import { createSpacedTextGeometry, createSpacedTextGeometryOutline } from "../utils/createSpacedTextGeometry.ts";
 
 interface Text3DProps {
     content: string;
@@ -55,6 +55,27 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
         [opts.colorGradualStart, opts.colorGradualEnd, opts.colorSide, yMin, yMax]
     );
 
+    const geometryOutline = useMemo(() => {
+        if (!content) {
+            return new THREE.BufferGeometry();
+        }
+        return createSpacedTextGeometryOutline({
+            text: content,
+            font,
+            size: opts.size,
+            height: opts.depth,
+            outlineWidth: opts.outlineWidth,
+            curveSegments: 12,
+            bevelEnabled: false,
+            letterSpacing: opts.letterSpacing
+        });
+    }, [content, opts.size, opts.depth, font, opts.letterSpacing]);
+
+    const outlineMaterial = useMemo(() =>
+        new THREE.MeshBasicMaterial({ color: opts.outlineColor, side: THREE.BackSide }),
+        [opts.outlineColor]
+    );
+
     // 分组几何体
     useMemo(() => {
         const positionAttribute = geometry.getAttribute('position') as THREE.BufferAttribute;
@@ -100,11 +121,13 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
 
     // 创建主网格
     const mainMesh = useMemo(() => new THREE.Mesh(geometry, textMaterial), [geometry, textMaterial]);
+    const outlineMesh = useMemo(() => new THREE.Mesh(geometryOutline, outlineMaterial), [geometryOutline, outlineMaterial]);
 
     // 创建一个组包含主网格
     const group = useMemo(() => {
         const grp = new THREE.Group();
         grp.add(mainMesh);
+        grp.add(outlineMesh);
         grp.position.set(...position);
         return grp;
     }, [mainMesh, position]);

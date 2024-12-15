@@ -3,7 +3,6 @@ import React, { Suspense, useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 import { OrbitControls, Html } from "@react-three/drei";
 import Text3D from "./Text3D";
-import OutlineEffect from "./OutlineEffect";
 import { TextOptions } from "../types/text";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import fontJson from "../assets/REEJI-TaikoMagicGB-Flash_Regular.json";
@@ -76,11 +75,11 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
             </Suspense>
 
             {/* 添加描边效果 */}
-            <OutlineEffect
-                edgeColor={new THREE.Color(0xff0000)}
-                thickness={5.0}
-                outlineObjects={selectedObjects}
-            />
+            {/*<OutlineEffect*/}
+            {/*    edgeColor={new THREE.Color(0xff0000)}*/}
+            {/*    thickness={5.0}*/}
+            {/*    outlineObjects={selectedObjects}*/}
+            {/*/>*/}
 
             {/* 添加控制器 */}
             <OrbitControls/>

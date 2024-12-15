@@ -95,20 +95,20 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     />
                 </Space>
             </Form.Item>
+            <Form.Item label={`描边大小 (${textOptions.outlineWidth})`}>
+                <Slider
+                    min={0}
+                    max={2.0}
+                    step={0.1}
+                    value={textOptions.outlineWidth}
+                    onChange={(val) => onTextOptionsChange({ ...textOptions, outlineWidth: val })}
+                />
+            </Form.Item>
             <Form.Item label="描边颜色">
                 <ColorPickerPopover
                     color={textOptions.outlineColor}
                     onChange={(color) => onTextOptionsChange({ ...textOptions, outlineColor: color })}
                     label="选择描边颜色"
-                />
-            </Form.Item>
-            <Form.Item label={`描边大小 (${textOptions.outlineWidth})`}>
-                <Slider
-                    min={0}
-                    max={10.0}
-                    step={0.1}
-                    value={textOptions.outlineWidth}
-                    onChange={(val) => onTextOptionsChange({ ...textOptions, outlineWidth: val })}
                 />
             </Form.Item>
         </>
