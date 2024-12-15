@@ -211,8 +211,17 @@ export const createSpacedTextGeometryOutline = ({
             expandedShapes.push(...offsetted);
         });
 
+        // 仅保留外轮廓（有向面积为正的形状）
+        const outerShapes = expandedShapes.filter(shape => computeShapeArea(shape, curveSegments) > 0);
+
+        if (outerShapes.length === 0) {
+            console.log('No outer shapes for char:', char);
+            // 如果没有外轮廓，则直接插入所有形状
+            outerShapes.push(...expandedShapes);
+        }
+
         // 将膨胀后的形状转换为 ClipperLib.Path
-        const clipperPaths: ClipperLib.Path[] = expandedShapes.map(shape =>
+        const clipperPaths: ClipperLib.Path[] = outerShapes.map(shape =>
             shape.getPoints().map(p => ({ X: Math.round(p.x * OFFSET_SCALE) + Math.round(offsetX * OFFSET_SCALE), Y: Math.round(p.y * OFFSET_SCALE) }))
         );
 
