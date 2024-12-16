@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { TextMaterialOption, TextMaterials } from "../types/text";
 
 // 生成渐变纹理
 const createGradientTexture = (
@@ -42,36 +43,69 @@ const createGradientTexture = (
     return texture;
 };
 
+export const createMeshStandardMaterialFromOption = (
+    option: TextMaterialOption,
+    reverseGradient: boolean = false,
+    extra: { [key: string]: any } = {}
+) : THREE.MeshStandardMaterial => {
+    const roughness = 1.0;  // 粗糙度
+    if (option.mode == 'color') {
+        return new THREE.MeshStandardMaterial({ color: option.color, roughness, ...extra });
+    } else if (option.mode == 'gradient') {
+        return new THREE.MeshStandardMaterial({ map: createGradientTexture(
+                reverseGradient ? option.colorGradualEnd : option.colorGradualStart,
+                reverseGradient ? option.colorGradualStart: option.colorGradualEnd,
+                option.repeat,
+                option.offset
+            ), roughness, ...extra });
+    } else {
+        // TODO
+        return new THREE.MeshStandardMaterial({ color: "#FF0000", roughness, ...extra });
+    }
+}
+
+export const createMeshBasicMaterialFromOption = (
+    option: TextMaterialOption,
+    reverseGradient: boolean = false,
+    extra: { [key: string]: any } = {}
+) : THREE.MeshBasicMaterial => {
+    if (option.mode == 'color') {
+        return new THREE.MeshBasicMaterial({ color: option.color, ...extra });
+    } else if (option.mode == 'gradient') {
+        return new THREE.MeshBasicMaterial({ map: createGradientTexture(
+                reverseGradient ? option.colorGradualEnd : option.colorGradualStart,
+                reverseGradient ? option.colorGradualStart: option.colorGradualEnd,
+                option.repeat,
+                option.offset
+            ), ...extra });
+    } else if (option.mode === 'image') {
+        const texture = new THREE.TextureLoader().load(option.image);
+        // 根据需求设置 wrap 模式与 repeat、offset 等
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(option.repeat, option.repeat);
+        texture.offset.set(0, option.offset);
+
+        return new THREE.MeshBasicMaterial({
+            map: texture,
+            ...extra
+        });
+    } else {
+        // 默认材质（fallback）
+        return new THREE.MeshBasicMaterial({ color: "#FF0000", ...extra });
+    }
+}
+
 // 创建立方体贴图材质
 export const createCubeMaterial = (
-    colorGradualStart: string,
-    colorGradualEnd: string,
-    colorSide: string,
-    colorBottomStart: string,
-    colorBottomEnd: string,
-): THREE.MeshStandardMaterial[] => { // 使用 MeshStandardMaterial
-    const gradientTexture = createGradientTexture(
-        colorGradualStart,
-        colorGradualEnd,
-        0.08,
-        0
-    );
-
-    const gradientTextureBottom = createGradientTexture(
-        colorBottomEnd,
-        colorBottomStart,
-        0.2,
-        1
-    );
-
-    const roughness = 1.0;  // 粗糙度
-
+    materials: TextMaterials
+): THREE.Material[] => {
     return [
-        new THREE.MeshStandardMaterial({ color: colorSide, roughness }), // 右面
-        new THREE.MeshStandardMaterial({ color: colorSide, roughness }), // 左面
-        new THREE.MeshStandardMaterial({ color: colorSide, roughness }), // 上面
-        new THREE.MeshStandardMaterial({ map: gradientTextureBottom, roughness }), // 下面
-        new THREE.MeshStandardMaterial({ map: gradientTexture, roughness }), // 前面
-        new THREE.MeshStandardMaterial({ color: colorSide, roughness }), // 后面
+        createMeshBasicMaterialFromOption(materials.right), // 右面
+        createMeshBasicMaterialFromOption(materials.left), // 左面
+        createMeshBasicMaterialFromOption(materials.up), // 上面
+        createMeshBasicMaterialFromOption(materials.down, true), // 下面
+        createMeshBasicMaterialFromOption(materials.front), // 前面
+        createMeshBasicMaterialFromOption(materials.back), // 后面
     ];
 };

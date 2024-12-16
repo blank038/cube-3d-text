@@ -6,6 +6,7 @@ import ThreeCanvas, { ThreeCanvasHandle } from "./components/ThreeCanvas";
 import "antd/dist/reset.css";
 import { TextOptions, CameraOptions } from "./types/text";
 import TextSettingsPanel from "./components/TextSettingsPanel.tsx";
+import { materialGradientLightBlue, materialGradientMediumYellow } from "./presetMaterials.ts";
 
 const { Sider, Content } = Layout;
 const { Panel } = Collapse;
@@ -23,13 +24,8 @@ const App: React.FC = () => {
         size: 10,
         depth: 5,
         y: 8,
-        colorGradualStart: "#ffd07b",
-        colorGradualEnd: "#ffaa00",
-        colorSide: "#553800",
-        colorBottomStart: "#a56c00",
-        colorBottomEnd: "#553800",
-        outlineColor: "#291a00",
-        outlineWidth: 0.6,
+        materials: materialGradientMediumYellow,
+        outlineWidth: 0.5,
         letterSpacing: 1.0
     });
 
@@ -37,13 +33,8 @@ const App: React.FC = () => {
         size: 5,
         depth: 3,
         y: -4,
-        colorGradualStart: "#9ae5ff",
-        colorGradualEnd: "#13b2ff",
-        colorSide: "#003855",
-        colorBottomStart: "#00649a",
-        colorBottomEnd: "#003855",
-        outlineColor: "#001e2b",
-        outlineWidth: 0.4,
+        materials: materialGradientLightBlue,
+        outlineWidth: 0.3,
         letterSpacing: 1.0
     });
 

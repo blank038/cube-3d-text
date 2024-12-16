@@ -1,8 +1,8 @@
 // src/components/TextSettingsPanel.tsx
 import React from "react";
-import { Form, Space, Input, Slider } from "antd";
-import ColorPickerPopover from "./ColorPickerPopover"; // 引入新组件
+import { Form, Input, Slider } from "antd";
 import { TextOptions } from "../types/text";
+import TextSettingsMaterialPanel from "./TextSettingsMaterialPanel.tsx";
 
 interface TextSettingsPanelProps {
     text: string;
@@ -58,42 +58,11 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     onChange={(val) => onTextOptionsChange({ ...textOptions, depth: val })}
                 />
             </Form.Item>
-
-            {/* 替换后的颜色选择器 */}
-            <Form.Item label="正面颜色渐变">
-                <Space>
-                    <ColorPickerPopover
-                        color={textOptions.colorGradualStart}
-                        onChange={(color) => onTextOptionsChange({ ...textOptions, colorGradualStart: color })}
-                        label="选择正面颜色渐变（上）"
-                    />
-                    <ColorPickerPopover
-                        color={textOptions.colorGradualEnd}
-                        onChange={(color) => onTextOptionsChange({ ...textOptions, colorGradualEnd: color })}
-                        label="选择正面颜色渐变（下）"
-                    />
-                </Space>
-            </Form.Item>
-            <Form.Item label="侧面颜色">
-                <ColorPickerPopover
-                    color={textOptions.colorSide}
-                    onChange={(color) => onTextOptionsChange({ ...textOptions, colorSide: color })}
-                    label="选择侧面颜色"
+            <Form.Item label="材质" layout={'vertical'}>
+                <TextSettingsMaterialPanel
+                    materials={textOptions.materials}
+                    onMaterialsChange={(materials) => onTextOptionsChange({ ...textOptions, materials })}
                 />
-            </Form.Item>
-            <Form.Item label="底面颜色渐变">
-                <Space>
-                    <ColorPickerPopover
-                        color={textOptions.colorBottomStart}
-                        onChange={(color) => onTextOptionsChange({ ...textOptions, colorBottomStart: color })}
-                        label="选择底面颜色渐变（上）"
-                    />
-                    <ColorPickerPopover
-                        color={textOptions.colorBottomEnd}
-                        onChange={(color) => onTextOptionsChange({ ...textOptions, colorBottomEnd: color })}
-                        label="选择底面颜色渐变（下）"
-                    />
-                </Space>
             </Form.Item>
             <Form.Item label={`描边大小 (${textOptions.outlineWidth})`}>
                 <Slider
@@ -102,13 +71,6 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     step={0.1}
                     value={textOptions.outlineWidth}
                     onChange={(val) => onTextOptionsChange({ ...textOptions, outlineWidth: val })}
-                />
-            </Form.Item>
-            <Form.Item label="描边颜色">
-                <ColorPickerPopover
-                    color={textOptions.outlineColor}
-                    onChange={(color) => onTextOptionsChange({ ...textOptions, outlineColor: color })}
-                    label="选择描边颜色"
                 />
             </Form.Item>
         </>

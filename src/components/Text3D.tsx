@@ -2,7 +2,10 @@ import { forwardRef, useMemo } from "react";
 import * as THREE from "three";
 import { Font } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextOptions } from "../types/text";
-import { createCubeMaterial } from "../utils/textMaterial.ts";
+import {
+    createCubeMaterial,
+    createMeshBasicMaterialFromOption
+} from "../utils/textMaterial.ts";
 import { createSpacedTextGeometry, createSpacedTextGeometryOutline } from "../utils/createSpacedTextGeometry.ts";
 
 interface Text3DProps {
@@ -46,13 +49,9 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
     // 创建文字材质
     const textMaterial = useMemo(() =>
         createCubeMaterial(
-            opts.colorGradualStart,
-            opts.colorGradualEnd,
-            opts.colorSide,
-            opts.colorBottomStart,
-            opts.colorBottomEnd
+            opts.materials
         ),
-        [opts.colorGradualStart, opts.colorGradualEnd, opts.colorSide, yMin, yMax]
+        [opts.materials, yMin, yMax]
     );
 
     const geometryOutline = useMemo(() => {
@@ -72,8 +71,8 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
     }, [content, opts.size, opts.depth, font, opts.letterSpacing]);
 
     const outlineMaterial = useMemo(() =>
-        new THREE.MeshBasicMaterial({ color: opts.outlineColor, side: THREE.BackSide }),
-        [opts.outlineColor]
+            createMeshBasicMaterialFromOption(opts.materials.outline, false, { side: THREE.BackSide }),
+        [opts.materials]
     );
 
     // 分组几何体

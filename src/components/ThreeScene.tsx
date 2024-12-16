@@ -47,12 +47,12 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
     return (
         <>
             {/* 添加光源 */}
-            <ambientLight intensity={3.0}/>
+            {/*<ambientLight intensity={3.0}/>
             <directionalLight
                 position={[0, 50, 50]}
                 intensity={1.0}
                 ref={(light) => light && light.lookAt(new THREE.Vector3(0, 0, 0))}
-            />
+            />*/}
 
             {/* 创建文本网格 */}
             <Suspense fallback={<Html>Loading...</Html>}>
