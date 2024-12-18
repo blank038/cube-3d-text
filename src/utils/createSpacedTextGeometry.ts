@@ -106,8 +106,9 @@ export const createSpacedTextGeometry = ({
         const char = text[i];
         if (char === " ") {
             // Handle space: set spacing based on font's space width
-            const spaceWidth = (font.data as ExtendedFontData).metrics.advanceWidth || size * 0.3;
-            offsetX += spaceWidth * size / 1000 + letterSpacing;
+            const metrics = (font.data as ExtendedFontData).metrics;
+            const spaceWidth = metrics && metrics.advanceWidth ? (metrics.advanceWidth * size / 1000) : (size * 0.3);
+            offsetX += spaceWidth + letterSpacing;
             continue;
         }
 
@@ -194,8 +195,9 @@ export const createSpacedTextGeometryOutline = ({
         const char = text[i];
         if (char === " ") {
             // 处理空格：根据字体的空格宽度设置间距
-            const spaceWidth = (font.data as ExtendedFontData).metrics.advanceWidth || size * 0.3;
-            offsetX += spaceWidth * size / 1000 + letterSpacing;
+            const metrics = (font.data as ExtendedFontData).metrics;
+            const spaceWidth = metrics && metrics.advanceWidth ? (metrics.advanceWidth * size / 1000) : (size * 0.3);
+            offsetX += spaceWidth + letterSpacing;
             continue;
         }
 
