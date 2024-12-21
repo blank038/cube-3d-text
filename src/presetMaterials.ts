@@ -431,6 +431,92 @@ export const materialGrass: TextMaterials = {
     } as TextMaterialColorOption
 }
 
+import textureAtmosphere from "./assets/material/atmosphere.png";
+
+export const materialAtmosphere: TextMaterials = {
+    front: {
+        mode: "image",
+        image: textureAtmosphere,
+        repeatX: 0.4545454545,
+        repeatY: 1,
+        offsetX: 0,
+        offsetY: 0.1
+    } as TextMaterialImageOption,
+    back: {
+        mode: "gradient",
+        colorGradualStart: "#ebd4ff",
+        colorGradualEnd: "#b56edd",
+        repeat: 1,
+        offset: 0
+    } as TextMaterialGradientOption,
+    up: {
+        mode: "gradient",
+        colorGradualStart: "#9a00f7",
+        colorGradualEnd: "#55008d",
+        repeat: 1,
+        offset: 0.8
+    } as TextMaterialGradientOption,
+    down: {
+        mode: "gradient",
+        colorGradualStart: "#8900e4",
+        colorGradualEnd: "#5e009a",
+        repeat: 1,
+        offset: 0.8
+    } as TextMaterialGradientOption,
+    left: {
+        mode: "color",
+        color: "#4a148c"
+    } as TextMaterialColorOption,
+    right: {
+        mode: "color",
+        color: "#4a148c"
+    } as TextMaterialColorOption,
+    outline: {
+        mode: "color",
+        color: "#36005d" // 更深的描边颜色
+    } as TextMaterialColorOption
+}
+
+import textureWinter from "./assets/material/winter.png";
+
+export const materialWinter: TextMaterials = {
+    front: {
+        mode: "image",
+        image: textureWinter,
+        repeatX: 0.5,
+        repeatY: 1,
+        offsetX: 0,
+        offsetY: 0.1,
+    } as TextMaterialImageOption,
+    back: {
+        mode: "color",
+        color: "#91b8ff"
+    } as TextMaterialColorOption,
+    up: {
+        mode: "color",
+        color: "#b1b9d4"
+    } as TextMaterialColorOption,
+    down: {
+        mode: "gradient",
+        colorGradualStart: "#5769cc",
+        colorGradualEnd: "#4c5cb5",
+        repeat: 1,
+        offset: 0.8
+    } as TextMaterialGradientOption,
+    left: {
+        mode: "color",
+        color: "#5769cc"
+    } as TextMaterialColorOption,
+    right: {
+        mode: "color",
+        color: "#5769cc"
+    } as TextMaterialColorOption,
+    outline: {
+        mode: "color",
+        color: "#1d193d" // 更深的描边颜色
+    } as TextMaterialColorOption
+}
+
 // 添加到预设材料中
 export const presetMaterials = [
     materialGradientRed,
@@ -442,5 +528,7 @@ export const presetMaterials = [
     materialGradientPink,
     materialSnow,
     materialCherry,
-    materialGrass
+    materialGrass,
+    materialAtmosphere,
+    materialWinter
 ]

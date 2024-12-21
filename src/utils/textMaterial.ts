@@ -115,7 +115,7 @@ export const createCubeMaterial = (
     return [
         createMeshBasicMaterialFromOption(materials.right, true, repeatSide, offsetSide), // 右面
         createMeshBasicMaterialFromOption(materials.left, true, repeatSide, offsetSide), // 左面
-        createMeshBasicMaterialFromOption(materials.up, false, repeatSide, offsetSide), // 上面
+        createMeshBasicMaterialFromOption(materials.up, true, repeatSide, offsetSide), // 上面
         createMeshBasicMaterialFromOption(materials.down, true, repeatSide, offsetSide), // 下面
         createMeshBasicMaterialFromOption(materials.front, false, repeatFront), // 前面
         createMeshBasicMaterialFromOption(materials.back, false, repeatFront), // 后面
