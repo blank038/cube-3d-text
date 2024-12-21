@@ -69,7 +69,7 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
             bevelEnabled: false,
             letterSpacing: opts.letterSpacing
         });
-    }, [content, opts.size, opts.depth, font, opts.letterSpacing]);
+    }, [content, opts.size, opts.depth, font, opts.letterSpacing, opts.outlineWidth]);
 
     const outlineMaterial = useMemo(() =>
             createMeshBasicMaterialFromOption(opts.materials.outline, false, [1, 1], [1, 1], { side: THREE.BackSide }),
