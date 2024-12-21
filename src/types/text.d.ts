@@ -33,8 +33,10 @@ export interface TextMaterialGradientOption {
 export interface TextMaterialImageOption {
     mode: 'image';
     image: string;
-    repeat: number;
-    offset: number;
+    repeatX: number;
+    repeatY: number;
+    offsetX: number;
+    offsetY: number;
 }
 
 export interface TextMaterialColorOption {

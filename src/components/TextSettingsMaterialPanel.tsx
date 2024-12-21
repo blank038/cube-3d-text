@@ -1,6 +1,6 @@
-// src/components/TextSettingsMaterialPanel.tsx
 import React, { useState } from "react";
-import { Form, Select, Input, Slider, Collapse, Space } from "antd";
+import { Form, Select, Slider, Collapse, Space, Upload, Button, Flex } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import ColorPickerPopover from "./ColorPickerPopover";
 import {
     TextMaterials,
@@ -72,8 +72,10 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
                     newMaterialOption = {
                         mode: "image",
                         image: "",
-                        repeat: 1,
-                        offset: 0,
+                        repeatX: 0.1,
+                        repeatY: 0.1,
+                        offsetX: 0,
+                        offsetY: 0,
                     } as TextMaterialImageOption;
                     break;
                 case "color":
@@ -181,34 +183,88 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
 
                 {currentMaterial.mode === "image" && (
                     <>
-                        <Form.Item label="图片 URL" key={`${face}-image-url`}>
-                            <Input
-                                value={(currentMaterial as TextMaterialImageOption).image}
-                                onChange={(e) =>
-                                    handleOptionChange(face, { image: e.target.value })
-                                }
-                                placeholder="输入图片 URL"
-                            />
+                        <Form.Item label="图片贴图" key={`${face}-image-upload`}>
+                            <Flex vertical gap={'small'}>
+                                <Upload
+                                    accept="image/*"
+                                    showUploadList={false}
+                                    beforeUpload={(file) => {
+                                        const reader = new FileReader();
+                                        reader.onload = (e) => {
+                                            handleOptionChange(face, { image: e.target?.result as string });
+                                        };
+                                        reader.readAsDataURL(file);
+                                        return false;
+                                    }}
+                                    onChange={(info) => {
+                                        if (info.file.status === 'done') {
+                                            const reader = new FileReader();
+                                            reader.onload = (e) => {
+                                                handleOptionChange(face, { image: e.target?.result as string });
+                                            };
+                                            if (info.file.originFileObj instanceof Blob) {
+                                                reader.readAsDataURL(info.file.originFileObj);
+                                            }
+                                        }
+                                    }}
+                                >
+                                    <Button icon={<UploadOutlined />}>上传</Button>
+                                </Upload>
+                                {materials[face].mode === "image" && materials[face].image && (
+                                    <img
+                                        src={materials[face].image}
+                                        alt="preview"
+                                        style={{
+                                            maxWidth: '100%',
+                                            width: 'auto',
+                                            height: 'auto',
+                                            imageRendering: 'pixelated',
+                                        }}
+                                    />
+                                )}
+                            </Flex>
                         </Form.Item>
-                        <Form.Item label="重复次数" key={`${face}-image-repeat`}>
+                        <Form.Item label="单位重复X（缩放）" key={`${face}-image-repeat-x`}>
                             <Slider
                                 min={0.001}
                                 max={1}
                                 step={0.001}
-                                value={(currentMaterial as TextMaterialImageOption).repeat}
+                                value={(currentMaterial as TextMaterialImageOption).repeatX}
                                 onChange={(value) =>
-                                    handleOptionChange(face, { repeat: value })
+                                    handleOptionChange(face, { repeatX: value })
                                 }
                             />
                         </Form.Item>
-                        <Form.Item label="偏移量" key={`${face}-image-offset`}>
+                        <Form.Item label="单位重复Y（缩放）" key={`${face}-image-repeat-y`}>
+                            <Slider
+                                min={0.001}
+                                max={1}
+                                step={0.001}
+                                value={(currentMaterial as TextMaterialImageOption).repeatY}
+                                onChange={(value) =>
+                                    handleOptionChange(face, { repeatY: value })
+                                }
+                            />
+                        </Form.Item>
+                        <Form.Item label="贴图偏移X" key={`${face}-image-offset-x`}>
                             <Slider
                                 min={0}
                                 max={10}
                                 step={0.01}
-                                value={(currentMaterial as TextMaterialImageOption).offset}
+                                value={(currentMaterial as TextMaterialImageOption).offsetX}
                                 onChange={(value) =>
-                                    handleOptionChange(face, { offset: value })
+                                    handleOptionChange(face, { offsetX: value })
+                                }
+                            />
+                        </Form.Item>
+                        <Form.Item label="贴图偏移Y" key={`${face}-image-offset-y`}>
+                            <Slider
+                                min={0}
+                                max={10}
+                                step={0.01}
+                                value={(currentMaterial as TextMaterialImageOption).offsetY}
+                                onChange={(value) =>
+                                    handleOptionChange(face, { offsetY: value })
                                 }
                             />
                         </Form.Item>
