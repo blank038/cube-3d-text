@@ -192,9 +192,9 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
                         </Form.Item>
                         <Form.Item label="重复次数" key={`${face}-image-repeat`}>
                             <Slider
-                                min={0.1}
-                                max={10}
-                                step={0.1}
+                                min={0.001}
+                                max={1}
+                                step={0.001}
                                 value={(currentMaterial as TextMaterialImageOption).repeat}
                                 onChange={(value) =>
                                     handleOptionChange(face, { repeat: value })
@@ -205,7 +205,7 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
                             <Slider
                                 min={0}
                                 max={10}
-                                step={0.1}
+                                step={0.01}
                                 value={(currentMaterial as TextMaterialImageOption).offset}
                                 onChange={(value) =>
                                     handleOptionChange(face, { offset: value })

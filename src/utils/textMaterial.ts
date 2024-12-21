@@ -86,6 +86,11 @@ export const createMeshBasicMaterialFromOption = (
         texture.repeat.set(option.repeat, option.repeat);
         texture.offset.set(0, option.offset);
 
+        texture.minFilter = THREE.NearestFilter;
+        texture.magFilter = THREE.NearestFilter;
+
+        texture.colorSpace = THREE.SRGBColorSpace;
+
         return new THREE.MeshBasicMaterial({
             map: texture,
             ...extra
@@ -101,8 +106,8 @@ export const createCubeMaterial = (
     materials: TextMaterials
 ): THREE.Material[] => {
     return [
-        createMeshBasicMaterialFromOption(materials.right), // 右面
-        createMeshBasicMaterialFromOption(materials.left), // 左面
+        createMeshBasicMaterialFromOption(materials.right, true), // 右面
+        createMeshBasicMaterialFromOption(materials.left, true), // 左面
         createMeshBasicMaterialFromOption(materials.up), // 上面
         createMeshBasicMaterialFromOption(materials.down, true), // 下面
         createMeshBasicMaterialFromOption(materials.front), // 前面

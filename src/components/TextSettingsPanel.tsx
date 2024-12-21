@@ -1,8 +1,10 @@
 // src/components/TextSettingsPanel.tsx
-import React from "react";
-import { Form, Input, Slider } from "antd";
+import React, { useState } from "react";
+import { Form, Input, Slider, Segmented, Flex } from "antd";
 import { TextOptions } from "../types/text";
 import TextSettingsMaterialPanel from "./TextSettingsMaterialPanel.tsx";
+import TextSettingsMaterialPresets from "./TextSettingsMaterialPresets.tsx";
+import { presetMaterials } from "../presetMaterials.ts";
 
 interface TextSettingsPanelProps {
     text: string;
@@ -17,6 +19,9 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                                                                  onTextChange,
                                                                  onTextOptionsChange,
                                                              }) => {
+
+    const [materialType, setMaterialType] = useState<'预设' | '自定义'>('预设');
+
     return (
         <>
             <Form.Item label="文本内容">
@@ -59,10 +64,21 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                 />
             </Form.Item>
             <Form.Item label="材质" layout={'vertical'}>
-                <TextSettingsMaterialPanel
-                    materials={textOptions.materials}
-                    onMaterialsChange={(materials) => onTextOptionsChange({ ...textOptions, materials })}
-                />
+                <Flex gap={'small'} vertical>
+                    <Segmented value={materialType} options={['预设', '自定义']} block onChange={setMaterialType} />
+                    {(materialType === '预设') ? (
+                        <TextSettingsMaterialPresets
+                            presetMaterials={presetMaterials}
+                            materials={textOptions.materials}
+                            onMaterialsChange={(materials) => onTextOptionsChange({...textOptions, materials})}
+                        />
+                    ) : (
+                        <TextSettingsMaterialPanel
+                            materials={textOptions.materials}
+                            onMaterialsChange={(materials) => onTextOptionsChange({...textOptions, materials})}
+                        />
+                    )}
+                </Flex>
             </Form.Item>
             <Form.Item label={`描边大小 (${textOptions.outlineWidth})`}>
                 <Slider
