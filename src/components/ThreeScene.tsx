@@ -7,6 +7,7 @@ import Text3D from "./Text3D";
 import { TextOptions } from "../types/text";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { useThree } from "@react-three/fiber";
+import { useMessage } from "../contexts/MessageContext";
 
 interface ThreeSceneProps {
     text1: string;
@@ -27,15 +28,39 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
     const text1Ref = useRef<THREE.Group>(null);
     const text2Ref = useRef<THREE.Group>(null);
 
+    const messageApi = useMessage();
+
     //@ts-ignore
     const [selectedObjects, setSelectedObjects] = useState<THREE.Object3D[]>([]);
-
     const [font, setFont] = useState<Font | null>(null);
 
     useEffect(() => {
         // 加载字体
         const fontLoader = new FontLoader();
-        fontLoader.load(fontUrl, setFont);
+        messageApi.open({
+            key: 'loadingFont',
+            type: 'loading',
+            content: '字体加载中...',
+        });
+        fontLoader.load(
+            fontUrl,
+            (font) => {
+                setFont(font);
+                messageApi.open({
+                    key: 'loadingFont',
+                    type: 'success',
+                    content: '字体加载完成!',
+                });
+            },
+            (progress) => {
+                console.log("Loading font...", progress);
+                messageApi.open({
+                    key: 'loadingFont',
+                    type: 'success',
+                    content: '字体加载中... ' + Math.round(progress.loaded / progress.total * 100) + '%',
+                });
+            }
+        );
     }, [fontUrl]); // 每次 fontUrl 变化时重新加载字体
 
     const { scene } = useThree();
