@@ -1,6 +1,6 @@
 // src/components/TextSettingsMaterialPanel.tsx
 import React, { CSSProperties } from "react";
-import { Card, Flex, Button } from "antd";
+import { Card, Flex, Button, ConfigProvider } from "antd";
 import {
     TextMaterials,
     TextMaterialGradientOption,
@@ -48,7 +48,7 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
     type TwoToneColor = string | [string, string];
 
     const iconColor = (materials: TextMaterials): TwoToneColor => {
-        const colors: TwoToneColor = ['white', 'rgba(0, 0, 0, .1)'];
+        const colors: TwoToneColor = ['white', 'rgba(255, 255, 255, .1)'];
         switch (materials.down.mode) {
             case "color":
                 colors[0] = (materials.down as TextMaterialColorOption).color;
@@ -64,15 +64,23 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
         <Card size={'small'}>
             <Flex gap={'small'} vertical>
                 {presetMaterials.map((preset) => (
-                    <Button
-                        block
-                        type={preset === materials ? 'primary' : undefined}
-                        ghost={preset === materials}
-                        onClick={() => onMaterialsChange(preset)}
-                        style={renderPreview(preset)}
+                    <ConfigProvider
+                        theme={{
+                            token: {
+                                colorPrimary: iconColor(preset)[0],
+                            }
+                        }}
                     >
-                        {preset === materials && <CheckSquareTwoTone twoToneColor={iconColor(preset)}/>}
-                    </Button>
+                        <Button
+                            block
+                            type={preset === materials ? 'primary' : undefined}
+                            ghost={preset === materials}
+                            onClick={() => onMaterialsChange(preset)}
+                            style={renderPreview(preset)}
+                        >
+                            {preset === materials && <CheckSquareTwoTone twoToneColor={iconColor(preset)}/>}
+                        </Button>
+                    </ConfigProvider>
                 ))}
             </Flex>
         </Card>
