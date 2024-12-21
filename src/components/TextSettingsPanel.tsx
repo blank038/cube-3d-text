@@ -40,7 +40,7 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                 <Slider
                     min={1}
                     max={20}
-                    step={1}
+                    step={0.1}
                     value={textOptions.size}
                     onChange={(val) => onTextOptionsChange({ ...textOptions, size: val })}
                 />
