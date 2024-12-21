@@ -17,6 +17,8 @@ interface ThreeSceneProps {
     fontUrl: string;
 }
 
+const cachedFonts : {[id: string]: Font} = {}
+
 const ThreeScene: React.FC<ThreeSceneProps> = ({
                                                    text1,
                                                    text2,
@@ -35,18 +37,22 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
     const [font, setFont] = useState<Font | null>(null);
 
     useEffect(() => {
+        if (cachedFonts[fontUrl]) {
+            setFont(cachedFonts[fontUrl]);
+            return;
+        }
         // 加载字体
         const fontLoader = new FontLoader();
         messageApi.open({
             key: 'loadingFont',
             type: 'loading',
             content: '字体加载中...',
-            duration: 5,
         });
         fontLoader.load(
             fontUrl,
             (font) => {
                 setFont(font);
+                cachedFonts[fontUrl] = font;
                 messageApi.open({
                     key: 'loadingFont',
                     type: 'success',
@@ -55,12 +61,11 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
                 });
             },
             (progress) => {
-                console.log("Loading font...", progress);
                 messageApi.open({
                     key: 'loadingFont',
                     type: 'loading',
                     content: '字体加载中... ' + Math.round(progress.loaded),
-                    duration: 5,
+                    duration: 60,
                 });
             }
         );
