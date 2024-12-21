@@ -36,6 +36,15 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     onChange={(val) => onTextOptionsChange({ ...textOptions, y: val })}
                 />
             </Form.Item>
+            <Form.Item label={`上下旋转 (${textOptions.rotY.toFixed(1)})`}>
+                <Slider
+                    min={-90}
+                    max={90}
+                    step={1}
+                    value={textOptions.rotY}
+                    onChange={(val) => onTextOptionsChange({ ...textOptions, rotY: val })}
+                />
+            </Form.Item>
             <Form.Item label={`文字大小 (${textOptions.size.toFixed(1)})`}>
                 <Slider
                     min={1}

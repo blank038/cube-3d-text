@@ -13,7 +13,7 @@ interface Text3DProps {
     opts: TextOptions;
     font: Font;
     position: [number, number, number];
-    // 其他props...
+    rotation: [number, number, number];
 }
 
 const Text3D = forwardRef<THREE.Group, Text3DProps>(({
@@ -21,7 +21,7 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
                                                          opts,
                                                          font,
                                                          position,
-                                                         // 其他props...
+                                                         rotation
                                                      }, ref) => {
 
     // 创建带有字间距的文字几何体
@@ -129,6 +129,7 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
         grp.add(mainMesh);
         grp.add(outlineMesh);
         grp.position.set(...position);
+        grp.rotation.set(...rotation);
         return grp;
     }, [mainMesh, position]);
 

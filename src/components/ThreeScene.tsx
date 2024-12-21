@@ -103,6 +103,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
                             opts={text1Options}
                             font={font}
                             position={[0, text1Options.y, 0]}
+                            rotation={[text1Options.rotY * (Math.PI / 180), 0, 0]}
                             ref={text1Ref}
                         />
                         <Text3D
@@ -110,6 +111,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
                             opts={text2Options}
                             font={font}
                             position={[0, text2Options.y, 0]}
+                            rotation={[text2Options.rotY * (Math.PI / 180), 0, 0]}
                             ref={text2Ref}
                         />
                     </group>

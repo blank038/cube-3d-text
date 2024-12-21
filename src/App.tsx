@@ -35,6 +35,7 @@ const App: React.FC = () => {
         size: 10,
         depth: 5,
         y: 8,
+        rotY: 0,
         materials: materialGradientMediumYellow,
         outlineWidth: 0.4,
         letterSpacing: 1.0
@@ -44,6 +45,7 @@ const App: React.FC = () => {
         size: 5,
         depth: 3,
         y: -4,
+        rotY: 0,
         materials: materialGradientLightBlue,
         outlineWidth: 0.5,
         letterSpacing: 1.5
