@@ -83,8 +83,8 @@ export const createMeshBasicMaterialFromOption = (
         // 根据需求设置 wrap 模式与 repeat、offset 等
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(option.repeatX, option.repeatY);
-        texture.offset.set(option.offsetX, option.offsetY);
+        texture.repeat.set(option.repeatX, reverseGradient ? -option.repeatY : option.repeatY);
+        texture.offset.set(option.offsetX, reverseGradient ? 1 - option.offsetY : option.offsetY);
 
         texture.minFilter = THREE.NearestFilter;
         texture.magFilter = THREE.NearestFilter;

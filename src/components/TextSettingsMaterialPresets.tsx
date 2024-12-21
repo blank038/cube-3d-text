@@ -22,27 +22,33 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
                                                                              }) => {
 
     const renderPreview = (material: TextMaterials) : CSSProperties => {
+        const style: CSSProperties = {};
         switch (material.front.mode) {
             case "color":
-                return (
-                    {
-                        backgroundColor: (material.front as TextMaterialColorOption).color
-                    }
-                );
+                style.backgroundColor = (material.front as TextMaterialColorOption).color;
+                break;
             case "gradient":
                 const {colorGradualStart, colorGradualEnd} = material.front as TextMaterialGradientOption;
-                return (
-                    {
-                        background: `linear-gradient(180deg, ${colorGradualStart}, ${colorGradualEnd})`
-                    }
-                );
+                style.background = `linear-gradient(180deg, ${colorGradualStart}, ${colorGradualEnd})`;
+                break;
             case "image":
-                return (
-                    {
-                        backgroundImage: `url(${(material.front as TextMaterialImageOption).image})`,
-                    }
-                );
+                style.backgroundImage = `url(${(material.front as TextMaterialImageOption).image})`;
+                style.backgroundSize = 'auto 100%';
+                style.imageRendering = 'pixelated';
+                break;
         }
+        switch (material.down.mode) {
+            case "color":
+                // Inner shadow with color
+                style.boxShadow = `0 -2px 0 0 ${(material.down as TextMaterialColorOption).color} inset`;
+                break;
+            case "gradient":
+                const { colorGradualStart } = material.down as TextMaterialGradientOption;
+                // Inner shadow with gradient end color
+                style.boxShadow = `0 -2px 0 0 ${colorGradualStart} inset`;
+                break;
+        }
+        return style;
     };
 
     type TwoToneColor = string | [string, string];

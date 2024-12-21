@@ -336,6 +336,101 @@ export const materialSnow: TextMaterials = {
     } as TextMaterialColorOption
 }
 
+// cherry(image)
+import textureCherry from "./assets/material/cherry.png";
+
+export const materialCherry: TextMaterials = {
+    front: {
+        mode: "image",
+        image: textureCherry,
+        repeatX: 0.038,
+        repeatY: 0.076,
+        offsetX: 0,
+        offsetY: 0.1,
+    } as TextMaterialImageOption,
+    back: {
+        mode: "color",
+        color: "#7f4668"
+    } as TextMaterialColorOption,
+    up: {
+        mode: "color",
+        color: "#7f4668"
+    } as TextMaterialColorOption,
+    down: {
+        mode: "gradient",
+        colorGradualStart: "#a65c88",
+        colorGradualEnd: "#602d4b",
+        repeat: 0.2,
+        offset: 0.8
+    } as TextMaterialGradientOption,
+    left: {
+        mode: "gradient",
+        colorGradualStart: "#7f4668",
+        colorGradualEnd: "#602d4b",
+        repeat: 0.2,
+        offset: 0.8
+    } as TextMaterialGradientOption,
+    right: {
+        mode: "gradient",
+        colorGradualStart: "#7f4668",
+        colorGradualEnd: "#602d4b",
+        repeat: 0.2,
+        offset: 0.8
+    } as TextMaterialGradientOption,
+    outline: {
+        mode: "color",
+        color: "#441b39" // 更深的描边颜色
+    } as TextMaterialColorOption
+}
+
+import textureGrass from "./assets/material/grass.png";
+import textureGrassDirt from "./assets/material/grass_dirt.png";
+
+export const materialGrass: TextMaterials = {
+    front: {
+        mode: "image",
+        image: textureGrass,
+        repeatX: 0.038,
+        repeatY: 0.076,
+        offsetX: 0,
+        offsetY: 0.1,
+    } as TextMaterialImageOption,
+    back: {
+        mode: "color",
+        color: "#4f9810"
+    } as TextMaterialColorOption,
+    up: {
+        mode: "color",
+        color: "#4f9810"
+    } as TextMaterialColorOption,
+    down: {
+        mode: "image",
+        image: textureGrassDirt,
+        repeatX: 0.107,
+        repeatY: 0.134,
+        offsetX: 0,
+        offsetY: 0.56,
+    } as TextMaterialImageOption,
+    left: {
+        mode: "gradient",
+        colorGradualStart: "#5c2f0e",
+        colorGradualEnd: "#2b040c",
+        repeat: 0.2,
+        offset: 0.8
+    } as TextMaterialGradientOption,
+    right: {
+        mode: "gradient",
+        colorGradualStart: "#5c2f0e",
+        colorGradualEnd: "#2b040c",
+        repeat: 0.2,
+        offset: 0.8
+    } as TextMaterialGradientOption,
+    outline: {
+        mode: "color",
+        color: "#2b040c"
+    } as TextMaterialColorOption
+}
+
 // 添加到预设材料中
 export const presetMaterials = [
     materialGradientRed,
@@ -345,5 +440,7 @@ export const presetMaterials = [
     materialGradientLightBlue,
     materialGradientPurple,
     materialGradientPink,
-    materialSnow
+    materialSnow,
+    materialCherry,
+    materialGrass
 ]
