@@ -9,6 +9,7 @@ import {
     TextMaterialImageOption,
     TextMaterialColorOption,
 } from "../types/text";
+import { useLanguage } from "../language";
 
 const { Panel } = Collapse;
 const { Option } = Select;
@@ -17,16 +18,6 @@ interface TextSettingsMaterialPanelProps {
     materials: TextMaterials;
     onMaterialsChange: (materials: TextMaterials) => void;
 }
-
-const faceLabels: { [key in keyof TextMaterials]: string } = {
-    front: "正面",
-    back: "背面",
-    up: "上侧",
-    down: "下侧",
-    left: "左侧",
-    right: "右侧",
-    outline: "描边",
-};
 
 const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
                                                                                  materials,
@@ -40,6 +31,18 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
             color?: TextMaterialColorOption;
         };
     }>({} as any);
+
+    const { gLang } = useLanguage();
+
+    const faceLabels: { [key in keyof TextMaterials]: string } = {
+        front: gLang("front"),
+        back: gLang("back"),
+        up: gLang("up"),
+        down: gLang("down"),
+        left: gLang("left"),
+        right: gLang("right"),
+        outline: gLang("outline"),
+    };
 
     const handleModeChange = (face: keyof TextMaterials, mode: TextMaterialOption["mode"]) => {
         const currentMaterial = materials[face];
@@ -112,51 +115,51 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
         const currentMaterial = materials[face];
         return (
             <>
-                <Form.Item label="模式" key={`${face}-mode`}>
+                <Form.Item label={gLang('mode')} key={`${face}-mode`}>
                     <Select
                         value={currentMaterial.mode}
                         onChange={(value) => handleModeChange(face, value)}
                         style={{ width: 150 }}
                     >
-                        <Option value="color">颜色</Option>
-                        <Option value="gradient">渐变</Option>
-                        <Option value="image">图片</Option>
+                        <Option value="color">{gLang('color')}</Option>
+                        <Option value="gradient">{gLang('gradient')}</Option>
+                        <Option value="image">{gLang('image')}</Option>
                     </Select>
                 </Form.Item>
 
                 {currentMaterial.mode === "color" && (
-                    <Form.Item label="颜色" key={`${face}-color`}>
+                    <Form.Item label={gLang('color')} key={`${face}-color`}>
                         <ColorPickerPopover
                             color={(currentMaterial as TextMaterialColorOption).color}
                             onChange={(color) =>
                                 handleOptionChange(face, { color } as TextMaterialColorOption)
                             }
-                            label={`选择${faceLabels[face]}颜色`}
+                            label={gLang('selectColor', { side: faceLabels[face] })}
                         />
                     </Form.Item>
                 )}
 
                 {currentMaterial.mode === "gradient" && (
                     <>
-                        <Form.Item label="颜色" key={`${face}-gradient-start`}>
+                        <Form.Item label={gLang('color')} key={`${face}-gradient-start`}>
                             <Space>
                                 <ColorPickerPopover
                                     color={(currentMaterial as TextMaterialGradientOption).colorGradualStart}
                                     onChange={(color) =>
                                         handleOptionChange(face, { colorGradualStart: color })
                                     }
-                                    label={`选择${faceLabels[face]}起始颜色`}
+                                    label={gLang('selectColorStart', { side: faceLabels[face] })}
                                 />
                                 <ColorPickerPopover
                                     color={(currentMaterial as TextMaterialGradientOption).colorGradualEnd}
                                     onChange={(color) =>
                                         handleOptionChange(face, { colorGradualEnd: color })
                                     }
-                                    label={`选择${faceLabels[face]}结束颜色`}
+                                    label={gLang('selectColorEnd', { side: faceLabels[face] })}
                                 />
                             </Space>
                         </Form.Item>
-                        <Form.Item label="重复次数" key={`${face}-gradient-repeat`}>
+                        <Form.Item label={gLang('repeat')} key={`${face}-gradient-repeat`}>
                             <Slider
                                 min={0.1}
                                 max={10}
@@ -167,7 +170,7 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
                                 }
                             />
                         </Form.Item>
-                        <Form.Item label="偏移量" key={`${face}-gradient-offset`}>
+                        <Form.Item label={gLang('offset')} key={`${face}-gradient-offset`}>
                             <Slider
                                 min={0}
                                 max={10}
@@ -183,7 +186,7 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
 
                 {currentMaterial.mode === "image" && (
                     <>
-                        <Form.Item label="图片贴图" key={`${face}-image-upload`}>
+                        <Form.Item label={gLang('image')} key={`${face}-image-upload`}>
                             <Flex vertical gap={'small'}>
                                 <Upload
                                     accept="image/*"
@@ -208,7 +211,7 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
                                         }
                                     }}
                                 >
-                                    <Button icon={<UploadOutlined />}>上传</Button>
+                                    <Button icon={<UploadOutlined />}>{gLang('upload')}</Button>
                                 </Upload>
                                 {materials[face].mode === "image" && materials[face].image && (
                                     <img
@@ -224,7 +227,7 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
                                 )}
                             </Flex>
                         </Form.Item>
-                        <Form.Item label="单位重复X（缩放）" key={`${face}-image-repeat-x`}>
+                        <Form.Item label={gLang('repeatX')} key={`${face}-image-repeat-x`}>
                             <Slider
                                 min={0.001}
                                 max={2}
@@ -235,7 +238,7 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
                                 }
                             />
                         </Form.Item>
-                        <Form.Item label="单位重复Y（缩放）" key={`${face}-image-repeat-y`}>
+                        <Form.Item label={gLang('repeatY')} key={`${face}-image-repeat-y`}>
                             <Slider
                                 min={0.001}
                                 max={2}
@@ -246,7 +249,7 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
                                 }
                             />
                         </Form.Item>
-                        <Form.Item label="贴图偏移X" key={`${face}-image-offset-x`}>
+                        <Form.Item label={gLang('offsetX')} key={`${face}-image-offset-x`}>
                             <Slider
                                 min={0}
                                 max={10}
@@ -257,7 +260,7 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
                                 }
                             />
                         </Form.Item>
-                        <Form.Item label="贴图偏移Y" key={`${face}-image-offset-y`}>
+                        <Form.Item label={gLang('offsetY')} key={`${face}-image-offset-y`}>
                             <Slider
                                 min={0}
                                 max={10}

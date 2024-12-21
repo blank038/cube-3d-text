@@ -1,7 +1,7 @@
 // src/App.tsx
 import React, { useState, useRef } from "react";
 import { Layout, Flex, Form, Slider, Collapse, Button, ConfigProvider, Select } from "antd";
-import { CameraOutlined, ReloadOutlined } from "@ant-design/icons";
+import { CameraOutlined, GlobalOutlined, ReloadOutlined } from "@ant-design/icons";
 import { HappyProvider } from '@ant-design/happy-work-theme';
 import ThreeCanvas, { ThreeCanvasHandle } from "./components/ThreeCanvas";
 import "antd/dist/reset.css";
@@ -9,12 +9,13 @@ import { TextOptions, CameraOptions } from "./types/text";
 import TextSettingsPanel from "./components/TextSettingsPanel.tsx";
 import { materialGradientLightBlue, materialGradientMediumYellow } from "./presetMaterials.ts";
 import { MessageProvider } from "./contexts/MessageContext";
+import { useLanguage } from "./language.tsx";
 
 const { Sider, Content } = Layout;
 const { Panel } = Collapse;
 
 // 字体映射
-const fontsMap: {[name: string]: string} = {
+const fontsMap: { [name: string]: string } = {
     "REEJI Taiko Magic": "font/REEJI-TaikoMagicGB-Flash_Regular.json",
     "汉仪力量黑(简)": "font/HYLiLiangHeiJ_Regular.json",
     "Minecraft Ten": "font/Minecraft_Ten_Regular.json",
@@ -23,8 +24,10 @@ const fontsMap: {[name: string]: string} = {
 };
 
 const App: React.FC = () => {
-    const [text1, setText1] = useState("我的世界");
-    const [text2, setText2] = useState("中国版");
+    const { language, setLanguage, gLang } = useLanguage();
+
+    const [text1, setText1] = useState(gLang('defaultText1'));
+    const [text2, setText2] = useState(gLang('defaultText2'));
 
     const [cameraOptions, setCameraOptions] = useState<CameraOptions>({
         fov: 75
@@ -67,7 +70,7 @@ const App: React.FC = () => {
             threeCanvasRef.current.resetCamera();
         }
     }
-
+    
     return (
         <ConfigProvider
             theme={{
@@ -90,8 +93,8 @@ const App: React.FC = () => {
                     <Sider width={300} style={{ background: "#F5F5F5", padding: 16, overflow: "auto" }}>
                         <Flex vertical gap={"middle"} style={{ width: "100%" }}>
                             <Collapse defaultActiveKey={["camera"]} bordered={false} style={{ background: "white", boxShadow: "0 2px 16px rgba(0, 0, 0, 0.05)" }}>
-                                <Panel header="场景&相机 设置" key="camera">
-                                    <Form.Item label="字体">
+                                <Panel header={gLang('cameraSettings')} key="camera">
+                                    <Form.Item label={gLang('font')}>
                                         <Select
                                             value={selectedFont}
                                             onChange={(value) => setSelectedFont(value)}
@@ -104,7 +107,7 @@ const App: React.FC = () => {
                                             ))}
                                         </Select>
                                     </Form.Item>
-                                    <Form.Item label={`透视角度 (${cameraOptions.fov}°)`} style={{ marginBottom: 0 }}>
+                                    <Form.Item label={gLang('perspective', {angle: cameraOptions.fov})} style={{ marginBottom: 0 }}>
                                         <Slider
                                             min={1}
                                             max={120}
@@ -117,7 +120,7 @@ const App: React.FC = () => {
                             </Collapse>
                             <Collapse defaultActiveKey={["1", "2"]} bordered={false} style={{ background: "white", boxShadow: "0 2px 16px rgba(0, 0, 0, 0.05)" }}>
                                 {/* 第一行文字 */}
-                                <Panel header="第一行文字" key="1">
+                                <Panel header={gLang('text1')} key="1">
                                     <TextSettingsPanel
                                         text={text1}
                                         textOptions={text1Options}
@@ -127,7 +130,7 @@ const App: React.FC = () => {
                                 </Panel>
 
                                 {/* 第二行文字 */}
-                                <Panel header="第二行文字" key="2">
+                                <Panel header={gLang('text2')} key="2">
                                     <TextSettingsPanel
                                         text={text2}
                                         textOptions={text2Options}
@@ -151,12 +154,24 @@ const App: React.FC = () => {
                         />
                         {/* 添加截图按钮 */}
                         <Flex gap={"small"} style={{ position: "absolute", top: 20, right: 20, zIndex: 1 }}>
+                            <Select
+                                prefix={<GlobalOutlined />}
+                                defaultValue={language}
+                                style={{ width: 120 }}
+                                onChange={(value: string) => {
+                                    setLanguage(value);
+                                }}
+                                options={[
+                                    { value: 'zh_CN', label: gLang('zh_CN') },
+                                    { value: 'en_US', label: gLang('en_US') },
+                                ]}
+                            />
                             <Button
                                 type="default"
                                 icon={<ReloadOutlined />}
                                 onClick={handleResetCamera}
                             >
-                                重置相机
+                                {gLang('resetCamera')}
                             </Button>
                             <HappyProvider>
                                 <Button
@@ -164,7 +179,7 @@ const App: React.FC = () => {
                                     icon={<CameraOutlined />}
                                     onClick={handleScreenshot}
                                 >
-                                    截图
+                                    {gLang('screenshot')}
                                 </Button>
                             </HappyProvider>
                         </Flex>
