@@ -2,7 +2,6 @@
 import React, { useState, useRef } from "react";
 import { Layout, Flex, Form, Slider, Collapse, Button, ConfigProvider, Select } from "antd";
 import { CameraOutlined, ReloadOutlined } from "@ant-design/icons";
-import { FontData } from "three/examples/jsm/loaders/FontLoader.js";
 import { HappyProvider } from '@ant-design/happy-work-theme';
 import ThreeCanvas, { ThreeCanvasHandle } from "./components/ThreeCanvas";
 import "antd/dist/reset.css";
@@ -13,23 +12,13 @@ import { materialGradientLightBlue, materialGradientMediumYellow } from "./prese
 const { Sider, Content } = Layout;
 const { Panel } = Collapse;
 
-import HYLiLiangHeiJ_Regular from "./assets/font/HYLiLiangHeiJ_Regular.json";
-import REEJI_TaikoMagic from "./assets/font/REEJI-TaikoMagicGB-Flash_Regular.json";
-import Minecraft_Ten from "./assets/font/Minecraft_Ten_Regular.json";
-import Fusion_Pixel_8px_Monospaced_zh_hans_Regular from "./assets/font/Fusion_Pixel_8px_Monospaced_zh_hans_Regular.json";
-import Fusion_Pixel_10px_Monospaced_zh_hans_Regular from "./assets/font/Fusion_Pixel_10px_Monospaced_zh_hans_Regular.json";
-
 // 字体映射
-//@ts-ignore
-const fontsMap: {[name: string]: FontData} = {
-    "REEJI Taiko Magic": REEJI_TaikoMagic,
-    //@ts-ignore
-    "汉仪力量黑(简)": HYLiLiangHeiJ_Regular,
-    "Minecraft Ten": Minecraft_Ten,
-    //@ts-ignore
-    "Fusion Pixel 8px": Fusion_Pixel_8px_Monospaced_zh_hans_Regular,
-    //@ts-ignore
-    "Fusion Pixel 10px": Fusion_Pixel_10px_Monospaced_zh_hans_Regular,
+const fontsMap: {[name: string]: string} = {
+    "REEJI Taiko Magic": "font/REEJI-TaikoMagicGB-Flash_Regular.json",
+    "汉仪力量黑(简)": "font/HYLiLiangHeiJ_Regular.json",
+    "Minecraft Ten": "font/Minecraft_Ten_Regular.json",
+    "Fusion Pixel 8px": "font/Fusion_Pixel_8px_Proportional zh_hans_Regular.json",
+    "Fusion Pixel 10px": "font/Fusion_Pixel_10px_Proportional_zh_hans_Regular.json",
 };
 
 const App: React.FC = () => {
@@ -154,7 +143,7 @@ const App: React.FC = () => {
                         text2={text2}
                         text1Options={text1Options}
                         text2Options={text2Options}
-                        font={fontsMap[selectedFont]}
+                        fontUrl={fontsMap[selectedFont]}
                     />
                     {/* 添加截图按钮 */}
                     <Flex gap={"small"} style={{ position: "absolute", top: 20, right: 20, zIndex: 1 }}>

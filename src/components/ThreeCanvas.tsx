@@ -4,7 +4,6 @@ import * as THREE from "three";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas, useThree } from "@react-three/fiber";
 import { TextOptions, CameraOptions } from "../types/text";
-import { FontData } from "three/examples/jsm/loaders/FontLoader.js";
 import ThreeScene from "./ThreeScene.tsx";
 import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
@@ -19,7 +18,7 @@ interface ThreeCanvasProps {
     text2: string;
     text1Options: TextOptions;
     text2Options: TextOptions;
-    font: FontData;
+    fontUrl: string;
 }
 
 const CameraController: React.FC<{ fov: number }> = ({ fov }) => {
@@ -43,7 +42,7 @@ interface ScreenshotProps {
 }
 
 const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref) => {
-    const { text1, text2, text1Options, text2Options, cameraOptions, font } = props;
+    const { text1, text2, text1Options, text2Options, cameraOptions, fontUrl } = props;
 
     const orbitRef = useRef<OrbitControlsImpl>(null);
 
@@ -100,7 +99,7 @@ const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref)
                 text2={text2}
                 text1Options={text1Options}
                 text2Options={text2Options}
-                font={font}
+                fontUrl={fontUrl}
             />
             <OrbitControls ref={orbitRef} enableDamping={false} dampingFactor={0} />
         </Canvas>

@@ -5,7 +5,7 @@ import { Html } from "@react-three/drei";
 import { Font } from "three/examples/jsm/loaders/FontLoader.js";
 import Text3D from "./Text3D";
 import { TextOptions } from "../types/text";
-import { FontLoader, FontData } from "three/examples/jsm/loaders/FontLoader.js";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { useThree } from "@react-three/fiber";
 
 interface ThreeSceneProps {
@@ -13,7 +13,7 @@ interface ThreeSceneProps {
     text2: string;
     text1Options: TextOptions;
     text2Options: TextOptions;
-    font: FontData;
+    fontUrl: string;
 }
 
 const ThreeScene: React.FC<ThreeSceneProps> = ({
@@ -21,7 +21,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
                                                    text2,
                                                    text1Options,
                                                    text2Options,
-                                                   font: fontData
+                                                   fontUrl
                                                }) => {
 
     const text1Ref = useRef<THREE.Group>(null);
@@ -33,12 +33,10 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
     const [font, setFont] = useState<Font | null>(null);
 
     useEffect(() => {
-        console.log("加载字体");
         // 加载字体
         const fontLoader = new FontLoader();
-        const loadedFont = fontLoader.parse(fontData);
-        setFont(loadedFont);
-    }, [fontData]); // 每次 fontUrl 变化时重新加载字体
+        fontLoader.load(fontUrl, setFont);
+    }, [fontUrl]); // 每次 fontUrl 变化时重新加载字体
 
     const { scene } = useThree();
 
