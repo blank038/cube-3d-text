@@ -1,7 +1,8 @@
 import React, { createContext, useContext, ReactNode } from "react";
 import { message } from "antd";
+import { MessageInstance } from "antd/es/message/interface";
 
-const MessageContext = createContext<any>(null);
+const MessageContext = createContext<MessageInstance | null>(null);
 
 interface MessageProviderProps {
     children: ReactNode;

@@ -6,6 +6,7 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { TextOptions, CameraOptions } from "../types/text";
 import ThreeScene from "./ThreeScene.tsx";
 import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+import { useMessage } from "../contexts/MessageContext.tsx";
 
 export interface ThreeCanvasHandle {
     takeScreenshot: () => void;
@@ -106,6 +107,8 @@ const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref)
         };
     };
 
+    const messageApi = useMessage();
+
     // 内部组件，用于定义截图功能
     const Screenshot: React.FC<ScreenshotProps> = ({ orbitRef }) => {
         const { gl, scene, camera } = useThree();
@@ -118,7 +121,7 @@ const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref)
                 // 2. 计算 bounding (在 CSS 尺寸下)
                 const bounding = computeScreenBoundingBox(scene, camera, gl);
                 if (!bounding) {
-                    alert("场景为空或对象在屏幕之外，无法截图。");
+                    messageApi?.warning("场景为空或对象在屏幕之外，无法截图。");
                     return;
                 }
 

@@ -43,7 +43,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
         }
         // 加载字体
         const fontLoader = new FontLoader();
-        messageApi.open({
+        messageApi?.open({
             key: 'loadingFont',
             type: 'loading',
             content: '字体加载中...',
@@ -53,7 +53,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
             (font) => {
                 setFont(font);
                 cachedFonts[fontUrl] = font;
-                messageApi.open({
+                messageApi?.open({
                     key: 'loadingFont',
                     type: 'success',
                     content: '字体加载完成!',
@@ -61,7 +61,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
                 });
             },
             (progress) => {
-                messageApi.open({
+                messageApi?.open({
                     key: 'loadingFont',
                     type: 'loading',
                     content: '字体加载中... ' + Math.round(progress.loaded),
