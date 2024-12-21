@@ -1,7 +1,7 @@
 // src/components/ThreeScene.tsx
 import React, { Suspense, useRef, useState, useEffect } from "react";
 import * as THREE from "three";
-import { OrbitControls, Html } from "@react-three/drei";
+import { Html } from "@react-three/drei";
 import Text3D from "./Text3D";
 import { TextOptions } from "../types/text";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
@@ -21,6 +21,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
                                                    text1Options,
                                                    text2Options,
                                                }) => {
+
     const text1Ref = useRef<THREE.Group>(null);
     const text2Ref = useRef<THREE.Group>(null);
 
@@ -80,9 +81,6 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
             {/*    thickness={5.0}*/}
             {/*    outlineObjects={selectedObjects}*/}
             {/*/>*/}
-
-            {/* 添加控制器 */}
-            <OrbitControls/>
         </>
     );
 };

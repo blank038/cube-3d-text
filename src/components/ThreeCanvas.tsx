@@ -1,9 +1,11 @@
 // src/components/ThreeCanvas.tsx
-import { forwardRef, useImperativeHandle, useEffect } from "react";
+import { forwardRef, useImperativeHandle, useEffect, useRef } from "react";
 import * as THREE from "three";
+import { OrbitControls } from "@react-three/drei";
 import { Canvas, useThree } from "@react-three/fiber";
 import { TextOptions, CameraOptions } from "../types/text";
 import ThreeScene from "./ThreeScene.tsx";
+import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 export interface ThreeCanvasHandle {
     takeScreenshot: () => void;
@@ -34,11 +36,17 @@ const CameraController: React.FC<{ fov: number }> = ({ fov }) => {
     return null;
 };
 
+interface ScreenshotProps {
+    orbitRef: React.RefObject<OrbitControlsImpl>;
+}
+
 const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref) => {
     const { text1, text2, text1Options, text2Options, cameraOptions } = props;
 
+    const orbitRef = useRef<OrbitControlsImpl>(null);
+
     // 内部组件，用于定义截图功能
-    const Screenshot = () => {
+    const Screenshot: React.FC<ScreenshotProps> = ({ orbitRef }) => {
         const { gl, scene, camera } = useThree();
 
         useImperativeHandle(ref, () => ({
@@ -58,10 +66,16 @@ const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref)
                 document.body.removeChild(link);
             },
             resetCamera: () => {
+                // 1. 重置 OrbitControls
+                orbitRef.current?.reset();
+
+                // 2. 再设定我们需要的相机位置 & 目标
                 camera.position.set(0, -20, 50);
                 camera.lookAt(0, 0, 0);
+
+                // 一些额外的更新
                 camera.updateProjectionMatrix();
-            }
+            },
         }));
 
         return null;
@@ -77,7 +91,7 @@ const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref)
             }}
             style={{ background: "transparent" }}
         >
-            <Screenshot />
+            <Screenshot orbitRef={orbitRef} />
             <CameraController fov={cameraOptions.fov} />
             <ThreeScene
                 text1={text1}
@@ -85,6 +99,7 @@ const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref)
                 text1Options={text1Options}
                 text2Options={text2Options}
             />
+            <OrbitControls ref={orbitRef} enableDamping={false} dampingFactor={0} />
         </Canvas>
     );
 });
