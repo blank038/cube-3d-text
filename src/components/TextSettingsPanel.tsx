@@ -5,6 +5,7 @@ import { TextOptions } from "../types/text";
 import TextSettingsMaterialPanel from "./TextSettingsMaterialPanel.tsx";
 import TextSettingsMaterialPresets from "./TextSettingsMaterialPresets.tsx";
 import { presetMaterials } from "../presetMaterials.ts";
+import { useLanguage } from "../language.tsx";
 
 interface TextSettingsPanelProps {
     text: string;
@@ -20,14 +21,15 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                                                                  onTextOptionsChange,
                                                              }) => {
 
+    const { gLang } = useLanguage();
     const [materialType, setMaterialType] = useState<'预设' | '自定义'>('预设');
 
     return (
         <>
-            <Form.Item label="文本内容">
+            <Form.Item label={gLang('content')}>
                 <Input value={text} onChange={(e) => onTextChange(e.target.value)} />
             </Form.Item>
-            <Form.Item label={`上下位置 (${textOptions.y.toFixed(1)})`}>
+            <Form.Item label={`${gLang('upDownPosition')} (${textOptions.y.toFixed(1)})`}>
                 <Slider
                     min={-20}
                     max={20}
@@ -36,7 +38,7 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     onChange={(val) => onTextOptionsChange({ ...textOptions, y: val })}
                 />
             </Form.Item>
-            <Form.Item label={`上下旋转 (${textOptions.rotY.toFixed(1)})`}>
+            <Form.Item label={`${gLang('upDownRotate')} (${textOptions.rotY.toFixed(1)})`}>
                 <Slider
                     min={-90}
                     max={90}
@@ -45,7 +47,7 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     onChange={(val) => onTextOptionsChange({ ...textOptions, rotY: val })}
                 />
             </Form.Item>
-            <Form.Item label={`文字大小 (${textOptions.size.toFixed(1)})`}>
+            <Form.Item label={`${gLang('fontSize')} (${textOptions.size.toFixed(1)})`}>
                 <Slider
                     min={1}
                     max={20}
@@ -54,7 +56,7 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     onChange={(val) => onTextOptionsChange({ ...textOptions, size: val })}
                 />
             </Form.Item>
-            <Form.Item label={`字间距 (${textOptions.letterSpacing.toFixed(1) ?? "1.0"})`}>
+            <Form.Item label={`${gLang('spacing')} (${textOptions.letterSpacing.toFixed(1) ?? "1.0"})`}>
                 <Slider
                     min={0}
                     max={5}
@@ -63,7 +65,7 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     onChange={(val) => onTextOptionsChange({ ...textOptions, letterSpacing: val })}
                 />
             </Form.Item>
-            <Form.Item label={`文字厚度 (${textOptions.depth.toFixed(1)})`}>
+            <Form.Item label={`${gLang('thickness')} (${textOptions.depth.toFixed(1)})`}>
                 <Slider
                     min={1}
                     max={10}
@@ -72,9 +74,9 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     onChange={(val) => onTextOptionsChange({ ...textOptions, depth: val })}
                 />
             </Form.Item>
-            <Form.Item label="材质" layout={'vertical'}>
+            <Form.Item label={gLang('texture')} layout={'vertical'}>
                 <Flex gap={'small'} vertical>
-                    <Segmented value={materialType} options={['预设', '自定义']} block onChange={setMaterialType} />
+                    <Segmented value={materialType} options={[{label: gLang('presuppose'), value: '预设'}, {label: gLang('customize'), value: '自定义'}]} block onChange={setMaterialType} />
                     {(materialType === '预设') ? (
                         <TextSettingsMaterialPresets
                             presetMaterials={presetMaterials}
@@ -89,7 +91,7 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     )}
                 </Flex>
             </Form.Item>
-            <Form.Item label={`描边大小 (${textOptions.outlineWidth.toFixed(1)})`}>
+            <Form.Item label={`${gLang('outlineSize')} (${textOptions.outlineWidth.toFixed(1)})`}>
                 <Slider
                     min={0}
                     max={1.0}

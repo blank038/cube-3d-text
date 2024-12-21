@@ -8,6 +8,7 @@ import { TextOptions } from "../types/text";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { useThree } from "@react-three/fiber";
 import { useMessage } from "../contexts/MessageContext";
+import { useLanguage } from "../language";
 
 interface ThreeSceneProps {
     text1: string;
@@ -27,6 +28,8 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
                                                    fontUrl
                                                }) => {
 
+    const { gLang } = useLanguage();
+    
     const text1Ref = useRef<THREE.Group>(null);
     const text2Ref = useRef<THREE.Group>(null);
 
@@ -46,7 +49,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
         messageApi?.open({
             key: 'loadingFont',
             type: 'loading',
-            content: '字体加载中...',
+            content: gLang('fontLoading'),
         });
         fontLoader.load(
             fontUrl,
@@ -56,7 +59,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
                 messageApi?.open({
                     key: 'loadingFont',
                     type: 'success',
-                    content: '字体加载完成!',
+                    content: gLang('fontSuccess'),
                     duration: 2,
                 });
             },
@@ -64,7 +67,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
                 messageApi?.open({
                     key: 'loadingFont',
                     type: 'loading',
-                    content: '字体加载中... ' + Math.round(progress.loaded),
+                    content: gLang('fontLoading') + Math.round(progress.loaded),
                     duration: 60,
                 });
             }
