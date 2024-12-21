@@ -2,6 +2,7 @@
 import React, { useState, useRef } from "react";
 import { Layout, Flex, Form, Slider, Collapse, Button, ConfigProvider } from "antd";
 import { CameraOutlined, ReloadOutlined } from "@ant-design/icons";
+import { HappyProvider } from '@ant-design/happy-work-theme';
 import ThreeCanvas, { ThreeCanvasHandle } from "./components/ThreeCanvas";
 import "antd/dist/reset.css";
 import { TextOptions, CameraOptions } from "./types/text";
@@ -121,13 +122,15 @@ const App: React.FC = () => {
                         >
                             重置相机
                         </Button>
-                        <Button
-                            type="primary"
-                            icon={<CameraOutlined />}
-                            onClick={handleScreenshot}
-                        >
-                            截图
-                        </Button>
+                        <HappyProvider>
+                            <Button
+                                type="primary"
+                                icon={<CameraOutlined />}
+                                onClick={handleScreenshot}
+                            >
+                                截图
+                            </Button>
+                        </HappyProvider>
                     </Flex>
                 </Content>
             </Layout>
