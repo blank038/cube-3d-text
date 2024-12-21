@@ -1,6 +1,5 @@
-// src/components/ColorPickerPopover.tsx
 import React, { useState } from "react";
-import { Popover, Button } from "antd";
+import { Popover, Button, Input } from "antd";
 import { HexColorPicker } from "react-colorful";
 
 interface ColorPickerPopoverProps {
@@ -11,14 +10,33 @@ interface ColorPickerPopoverProps {
 
 const ColorPickerPopover: React.FC<ColorPickerPopoverProps> = ({ color, onChange, label }) => {
     const [visible, setVisible] = useState(false);
+    const [inputColor, setInputColor] = useState(color);
 
     const handleVisibleChange = (newVisible: boolean) => {
         setVisible(newVisible);
     };
 
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newColor = e.target.value;
+        setInputColor(newColor);
+        onChange(newColor);
+    };
+
     return (
         <Popover
-            content={<HexColorPicker color={color} onChange={onChange} />}
+            content={
+                <>
+                    <HexColorPicker color={color} onChange={newColor => {
+                        onChange(newColor);
+                        setInputColor(newColor);
+                    }} />
+                    <Input
+                        value={inputColor}
+                        onChange={handleInputChange}
+                        style={{ marginTop: 8 }}
+                    />
+                </>
+            }
             title={label}
             trigger="click"
             visible={visible}
