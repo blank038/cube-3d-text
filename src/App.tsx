@@ -1,6 +1,6 @@
 // src/App.tsx
 import React, { useState, useRef } from "react";
-import { Layout, Flex, Form, Slider, Collapse, Button } from "antd";
+import { Layout, Flex, Form, Slider, Collapse, Button, ConfigProvider } from "antd";
 import { CameraOutlined, ReloadOutlined } from "@ant-design/icons";
 import ThreeCanvas, { ThreeCanvasHandle } from "./components/ThreeCanvas";
 import "antd/dist/reset.css";
@@ -54,76 +54,84 @@ const App: React.FC = () => {
     }
 
     return (
-        <Layout style={{ height: "100vh" }}>
-            {/* 左侧配置面板 */}
-            <Sider width={300} style={{ background: "#F5F5F5", padding: 16, overflow: "auto" }}>
-                <Flex vertical gap={"middle"} style={{ width: "100%" }}>
-                    <Collapse defaultActiveKey={["camera"]} bordered={false} style={{ background: "white", boxShadow: "0 2px 16px rgba(0, 0, 0, 0.05)" }}>
-                        {/* 第一行文字 */}
-                        <Panel header="相机设置" key="camera" style={{ marginBottom: -24 }}>
-                            <Form.Item label={`透视角度 (${cameraOptions.fov})`}>
-                                <Slider
-                                    min={1}
-                                    max={120}
-                                    step={1}
-                                    value={cameraOptions.fov}
-                                    onChange={(val) => setCameraOptions({ ...cameraOptions, fov: val })}
+        <ConfigProvider
+            theme={{
+                token: {
+                    colorPrimary: '#333333',
+                }
+            }}
+        >
+            <Layout style={{ height: "100vh" }}>
+                {/* 左侧配置面板 */}
+                <Sider width={300} style={{ background: "#F5F5F5", padding: 16, overflow: "auto" }}>
+                    <Flex vertical gap={"middle"} style={{ width: "100%" }}>
+                        <Collapse defaultActiveKey={["camera"]} bordered={false} style={{ background: "white", boxShadow: "0 2px 16px rgba(0, 0, 0, 0.05)" }}>
+                            {/* 第一行文字 */}
+                            <Panel header="相机设置" key="camera">
+                                <Form.Item label={`透视角度 (${cameraOptions.fov})`} style={{ marginBottom: 0 }}>
+                                    <Slider
+                                        min={1}
+                                        max={120}
+                                        step={1}
+                                        value={cameraOptions.fov}
+                                        onChange={(val) => setCameraOptions({ ...cameraOptions, fov: val })}
+                                    />
+                                </Form.Item>
+                            </Panel>
+                        </Collapse>
+                        <Collapse defaultActiveKey={["1", "2"]} bordered={false} style={{ background: "white", boxShadow: "0 2px 16px rgba(0, 0, 0, 0.05)" }}>
+                            {/* 第一行文字 */}
+                            <Panel header="第一行文字" key="1">
+                                <TextSettingsPanel
+                                    text={text1}
+                                    textOptions={text1Options}
+                                    onTextChange={setText1}
+                                    onTextOptionsChange={setText1Options}
                                 />
-                            </Form.Item>
-                        </Panel>
-                    </Collapse>
-                    <Collapse defaultActiveKey={["1", "2"]} bordered={false} style={{ background: "white", boxShadow: "0 2px 16px rgba(0, 0, 0, 0.05)" }}>
-                        {/* 第一行文字 */}
-                        <Panel header="第一行文字" key="1">
-                            <TextSettingsPanel
-                                text={text1}
-                                textOptions={text1Options}
-                                onTextChange={setText1}
-                                onTextOptionsChange={setText1Options}
-                            />
-                        </Panel>
+                            </Panel>
 
-                        {/* 第二行文字 */}
-                        <Panel header="第二行文字" key="2">
-                            <TextSettingsPanel
-                                text={text2}
-                                textOptions={text2Options}
-                                onTextChange={setText2}
-                                onTextOptionsChange={setText2Options}
-                            />
-                        </Panel>
-                    </Collapse>
-                </Flex>
-            </Sider>
-            {/* 右侧 3D 场景 */}
-            <Content style={{ position: "relative" }}>
-                <ThreeCanvas
-                    ref={threeCanvasRef}
-                    cameraOptions={cameraOptions}
-                    text1={text1}
-                    text2={text2}
-                    text1Options={text1Options}
-                    text2Options={text2Options}
-                />
-                {/* 添加截图按钮 */}
-                <Flex gap={"small"} style={{ position: "absolute", top: 20, right: 20, zIndex: 1 }}>
-                    <Button
-                        type="default"
-                        icon={<ReloadOutlined />}
-                        onClick={handleResetCamera}
-                    >
-                        重置相机
-                    </Button>
-                    <Button
-                        type="primary"
-                        icon={<CameraOutlined />}
-                        onClick={handleScreenshot}
-                    >
-                        截图
-                    </Button>
-                </Flex>
-            </Content>
-        </Layout>
+                            {/* 第二行文字 */}
+                            <Panel header="第二行文字" key="2">
+                                <TextSettingsPanel
+                                    text={text2}
+                                    textOptions={text2Options}
+                                    onTextChange={setText2}
+                                    onTextOptionsChange={setText2Options}
+                                />
+                            </Panel>
+                        </Collapse>
+                    </Flex>
+                </Sider>
+                {/* 右侧 3D 场景 */}
+                <Content style={{ position: "relative" }}>
+                    <ThreeCanvas
+                        ref={threeCanvasRef}
+                        cameraOptions={cameraOptions}
+                        text1={text1}
+                        text2={text2}
+                        text1Options={text1Options}
+                        text2Options={text2Options}
+                    />
+                    {/* 添加截图按钮 */}
+                    <Flex gap={"small"} style={{ position: "absolute", top: 20, right: 20, zIndex: 1 }}>
+                        <Button
+                            type="default"
+                            icon={<ReloadOutlined />}
+                            onClick={handleResetCamera}
+                        >
+                            重置相机
+                        </Button>
+                        <Button
+                            type="primary"
+                            icon={<CameraOutlined />}
+                            onClick={handleScreenshot}
+                        >
+                            截图
+                        </Button>
+                    </Flex>
+                </Content>
+            </Layout>
+        </ConfigProvider>
     );
 };
 
