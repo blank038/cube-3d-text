@@ -42,16 +42,15 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
     }, [content, opts.size, opts.depth, font, opts.letterSpacing]);
 
     // 获取文字几何体的高度
-    const boundingBox = new THREE.Box3().setFromObject(new THREE.Mesh(geometry));
-    const yMin = boundingBox.min.y;
-    const yMax = boundingBox.max.y;
+    const boundingBox: THREE.Box3 = new THREE.Box3().setFromObject(new THREE.Mesh(geometry));
 
     // 创建文字材质
     const textMaterial = useMemo(() =>
         createCubeMaterial(
-            opts.materials
+            opts.materials,
+            boundingBox
         ),
-        [opts.materials, yMin, yMax]
+        [opts.materials, boundingBox]
     );
 
     const geometryOutline = useMemo(() => {
@@ -71,7 +70,7 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
     }, [content, opts.size, opts.depth, font, opts.letterSpacing]);
 
     const outlineMaterial = useMemo(() =>
-            createMeshBasicMaterialFromOption(opts.materials.outline, false, { side: THREE.BackSide }),
+            createMeshBasicMaterialFromOption(opts.materials.outline, false, [1, 1], [1, 1], { side: THREE.BackSide }),
         [opts.materials]
     );
 

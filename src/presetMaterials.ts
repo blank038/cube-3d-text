@@ -10,14 +10,14 @@ export const materialGradientMediumYellow : TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#ffd07b",
         colorGradualEnd: "#ffaa00",
-        repeat: 0.08,
+        repeat: 1,
         offset: 0
     } as TextMaterialGradientOption,
     back: {
         mode: "gradient",
         colorGradualStart: "#ffd07b",
         colorGradualEnd: "#ffaa00",
-        repeat: 0.08,
+        repeat: 1,
         offset: 0
     } as TextMaterialGradientOption,
     up: {
@@ -28,8 +28,8 @@ export const materialGradientMediumYellow : TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#a56c00",
         colorGradualEnd: "#553800",
-        repeat: 0.2,
-        offset: 0.7
+        repeat: 1,
+        offset: 0.8
     } as TextMaterialGradientOption,
     left: {
         mode: "color",
@@ -50,14 +50,14 @@ export const materialGradientLightBlue : TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#9ae5ff",
         colorGradualEnd: "#13b2ff",
-        repeat: 0.08,
+        repeat: 1,
         offset: 0
     } as TextMaterialGradientOption,
     back: {
         mode: "gradient",
         colorGradualStart: "#9ae5ff",
         colorGradualEnd: "#13b2ff",
-        repeat: 0.08,
+        repeat: 1,
         offset: 0
     } as TextMaterialGradientOption,
     up: {
@@ -68,8 +68,8 @@ export const materialGradientLightBlue : TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#00649a",
         colorGradualEnd: "#003855",
-        repeat: 0.2,
-        offset: 1
+        repeat: 1,
+        offset: 0.8
     } as TextMaterialGradientOption,
     left: {
         mode: "color",
@@ -91,14 +91,14 @@ export const materialGradientPurple: TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#ebd4ff", // 浅紫
         colorGradualEnd: "#b56edd", // 深紫
-        repeat: 0.05,
+        repeat: 1,
         offset: 0
     } as TextMaterialGradientOption,
     back: {
         mode: "gradient",
         colorGradualStart: "#ebd4ff",
         colorGradualEnd: "#b56edd",
-        repeat: 0.05,
+        repeat: 1,
         offset: 0
     } as TextMaterialGradientOption,
     up: {
@@ -109,7 +109,7 @@ export const materialGradientPurple: TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#803daf", // 较亮的紫色
         colorGradualEnd: "#390c70", // 深紫色
-        repeat: 0.15,
+        repeat: 1,
         offset: 0.8
     } as TextMaterialGradientOption,
     left: {
@@ -132,14 +132,14 @@ export const materialGradientGreen: TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#c8ffc3", // 浅绿
         colorGradualEnd: "#66d866", // 深绿
-        repeat: 0.05,
+        repeat: 1,
         offset: 0
     } as TextMaterialGradientOption,
     back: {
         mode: "gradient",
         colorGradualStart: "#c8ffc3",
         colorGradualEnd: "#66d866",
-        repeat: 0.05,
+        repeat: 1,
         offset: 0
     } as TextMaterialGradientOption,
     up: {
@@ -150,7 +150,7 @@ export const materialGradientGreen: TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#3f8f3f", // 较亮的绿色
         colorGradualEnd: "#144e14", // 深绿色
-        repeat: 0.2,
+        repeat: 1,
         offset: 0.8
     } as TextMaterialGradientOption,
     left: {
@@ -173,14 +173,14 @@ export const materialGradientRed: TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#ff9a9a", // 浅红
         colorGradualEnd: "#ff4d4d", // 深红
-        repeat: 0.05,
+        repeat: 1,
         offset: 0
     } as TextMaterialGradientOption,
     back: {
         mode: "gradient",
         colorGradualStart: "#ff9a9a",
         colorGradualEnd: "#ff4d4d",
-        repeat: 0.05,
+        repeat: 1,
         offset: 0
     } as TextMaterialGradientOption,
     up: {
@@ -191,7 +191,7 @@ export const materialGradientRed: TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#b52525", // 较亮的红色
         colorGradualEnd: "#780000", // 深红色
-        repeat: 0.2,
+        repeat: 1,
         offset: 0.8
     } as TextMaterialGradientOption,
     left: {
@@ -214,14 +214,14 @@ export const materialGradientPink: TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#ffbadc",
         colorGradualEnd: "#ff65b3",
-        repeat: 0.05,
+        repeat: 1,
         offset: 0
     } as TextMaterialGradientOption,
     back: {
         mode: "gradient",
         colorGradualStart: "#ffbadc",
         colorGradualEnd: "#ff65b3",
-        repeat: 0.05,
+        repeat: 1,
         offset: 0
     } as TextMaterialGradientOption,
     up: {
@@ -232,7 +232,7 @@ export const materialGradientPink: TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#bd2d6e", // 较亮的红色
         colorGradualEnd: "#780032", // 深红色
-        repeat: 0.2,
+        repeat: 1,
         offset: 0.8
     } as TextMaterialGradientOption,
     left: {
@@ -255,14 +255,14 @@ export const materialGradientCyan: TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#caffff",
         colorGradualEnd: "#31deed",
-        repeat: 0.05,
+        repeat: 1,
         offset: 0
     } as TextMaterialGradientOption,
     back: {
         mode: "gradient",
         colorGradualStart: "#caffff",
         colorGradualEnd: "#31deed",
-        repeat: 0.05,
+        repeat: 1,
         offset: 0
     } as TextMaterialGradientOption,
     up: {
@@ -273,7 +273,7 @@ export const materialGradientCyan: TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#00b3b3", // 较亮的青色
         colorGradualEnd: "#004d4d", // 深青色
-        repeat: 0.2,
+        repeat: 1,
         offset: 0.8
     } as TextMaterialGradientOption,
     left: {
@@ -296,8 +296,8 @@ export const materialSnow: TextMaterials = {
     front: {
         mode: "image",
         image: textureSnow,
-        repeatX: 0.077,
-        repeatY: 0.077,
+        repeatX: 1,
+        repeatY: 1,
         offsetX: 0,
         offsetY: 0.1,
     } as TextMaterialImageOption,
@@ -313,21 +313,21 @@ export const materialSnow: TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#1c53a3",
         colorGradualEnd: "#151855",
-        repeat: 0.2,
+        repeat: 1,
         offset: 0.8
     } as TextMaterialGradientOption,
     left: {
         mode: "gradient",
         colorGradualStart: "#0e3a7a",
         colorGradualEnd: "#151855",
-        repeat: 0.2,
+        repeat: 1,
         offset: 0.8
     } as TextMaterialGradientOption,
     right: {
         mode: "gradient",
         colorGradualStart: "#0e3a7a",
         colorGradualEnd: "#151855",
-        repeat: 0.2,
+        repeat: 1,
         offset: 0.8
     } as TextMaterialGradientOption,
     outline: {
@@ -343,8 +343,8 @@ export const materialCherry: TextMaterials = {
     front: {
         mode: "image",
         image: textureCherry,
-        repeatX: 0.038,
-        repeatY: 0.076,
+        repeatX: 1,
+        repeatY: 2,
         offsetX: 0,
         offsetY: 0.1,
     } as TextMaterialImageOption,
@@ -360,21 +360,21 @@ export const materialCherry: TextMaterials = {
         mode: "gradient",
         colorGradualStart: "#a65c88",
         colorGradualEnd: "#602d4b",
-        repeat: 0.2,
+        repeat: 1,
         offset: 0.8
     } as TextMaterialGradientOption,
     left: {
         mode: "gradient",
         colorGradualStart: "#7f4668",
         colorGradualEnd: "#602d4b",
-        repeat: 0.2,
+        repeat: 1,
         offset: 0.8
     } as TextMaterialGradientOption,
     right: {
         mode: "gradient",
         colorGradualStart: "#7f4668",
         colorGradualEnd: "#602d4b",
-        repeat: 0.2,
+        repeat: 1,
         offset: 0.8
     } as TextMaterialGradientOption,
     outline: {
@@ -390,8 +390,8 @@ export const materialGrass: TextMaterials = {
     front: {
         mode: "image",
         image: textureGrass,
-        repeatX: 0.038,
-        repeatY: 0.076,
+        repeatX: 0.5,
+        repeatY: 1,
         offsetX: 0,
         offsetY: 0.1,
     } as TextMaterialImageOption,
@@ -406,23 +406,23 @@ export const materialGrass: TextMaterials = {
     down: {
         mode: "image",
         image: textureGrassDirt,
-        repeatX: 0.107,
-        repeatY: 0.134,
+        repeatX: 1.27272727,
+        repeatY: 1.0,
         offsetX: 0,
-        offsetY: 0.56,
+        offsetY: 0.8,
     } as TextMaterialImageOption,
     left: {
         mode: "gradient",
         colorGradualStart: "#5c2f0e",
         colorGradualEnd: "#2b040c",
-        repeat: 0.2,
+        repeat: 1,
         offset: 0.8
     } as TextMaterialGradientOption,
     right: {
         mode: "gradient",
         colorGradualStart: "#5c2f0e",
         colorGradualEnd: "#2b040c",
-        repeat: 0.2,
+        repeat: 1,
         offset: 0.8
     } as TextMaterialGradientOption,
     outline: {

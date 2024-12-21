@@ -67,6 +67,8 @@ export const createMeshStandardMaterialFromOption = (
 export const createMeshBasicMaterialFromOption = (
     option: TextMaterialOption,
     reverseGradient: boolean = false,
+    extraRepeat: [number, number] = [1, 1],
+    extraOffset: [number, number] = [1, 1],
     extra: { [key: string]: any } = {}
 ) : THREE.MeshBasicMaterial => {
     if (option.mode == 'color') {
@@ -75,16 +77,16 @@ export const createMeshBasicMaterialFromOption = (
         return new THREE.MeshBasicMaterial({ map: createGradientTexture(
                 reverseGradient ? option.colorGradualEnd : option.colorGradualStart,
                 reverseGradient ? option.colorGradualStart: option.colorGradualEnd,
-                option.repeat,
-                option.offset
+                option.repeat * extraRepeat[1],
+                option.offset * extraOffset[1]
             ), ...extra });
     } else if (option.mode === 'image') {
         const texture = new THREE.TextureLoader().load(option.image);
         // 根据需求设置 wrap 模式与 repeat、offset 等
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(option.repeatX, reverseGradient ? -option.repeatY : option.repeatY);
-        texture.offset.set(option.offsetX, reverseGradient ? 1 - option.offsetY : option.offsetY);
+        texture.repeat.set(option.repeatX * extraRepeat[0], (reverseGradient ? -option.repeatY : option.repeatY) * extraRepeat[1]);
+        texture.offset.set(option.offsetX * extraOffset[0], (reverseGradient ? 1 - option.offsetY : option.offsetY) * extraOffset[1]);
 
         texture.minFilter = THREE.NearestFilter;
         texture.magFilter = THREE.NearestFilter;
@@ -103,14 +105,19 @@ export const createMeshBasicMaterialFromOption = (
 
 // 创建立方体贴图材质
 export const createCubeMaterial = (
-    materials: TextMaterials
+    materials: TextMaterials,
+    boundingBox: THREE.Box3
 ): THREE.Material[] => {
+    const repeatFront = [1 / (boundingBox.max.y - boundingBox.min.y), 1 / (boundingBox.max.y - boundingBox.min.y)] as [number, number];
+    const repeatSide = [1 / (boundingBox.max.y - boundingBox.min.y), 1 / (boundingBox.max.z - boundingBox.min.z)] as [number, number];
+    //const offsetSide = [(boundingBox.max.z - boundingBox.min.z) / 2, (boundingBox.max.z - boundingBox.min.z) / 2] as [number, number];
+    const offsetSide = [1, 1] as [number, number];  // TODO: 修正偏移量
     return [
-        createMeshBasicMaterialFromOption(materials.right, true), // 右面
-        createMeshBasicMaterialFromOption(materials.left, true), // 左面
-        createMeshBasicMaterialFromOption(materials.up), // 上面
-        createMeshBasicMaterialFromOption(materials.down, true), // 下面
-        createMeshBasicMaterialFromOption(materials.front), // 前面
-        createMeshBasicMaterialFromOption(materials.back), // 后面
+        createMeshBasicMaterialFromOption(materials.right, true, repeatSide, offsetSide), // 右面
+        createMeshBasicMaterialFromOption(materials.left, true, repeatSide, offsetSide), // 左面
+        createMeshBasicMaterialFromOption(materials.up, false, repeatSide, offsetSide), // 上面
+        createMeshBasicMaterialFromOption(materials.down, true, repeatSide, offsetSide), // 下面
+        createMeshBasicMaterialFromOption(materials.front, false, repeatFront), // 前面
+        createMeshBasicMaterialFromOption(materials.back, false, repeatFront), // 后面
     ];
 };
