@@ -3,6 +3,10 @@
 这是一个在线制作 **Minecraft** 风格立体文字的在线工具，使用 **React** + **Three.js** 编写。  
 它支持多种功能和特性，帮助你快速生成各种 3D 文字效果。
 
+**在线体验地址：[Cube 3D Text](https://3dtext.easecation.net/)**
+
+![Cube 3D Text](./preview.png)
+
 ## 功能介绍
 
 - **多种字体支持**：包括中文字体（任意语言），方便制作本地化标题或 Logo（请注意字体版权问题）
