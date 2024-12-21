@@ -1,7 +1,8 @@
 // src/App.tsx
 import React, { useState, useRef } from "react";
-import { Layout, Flex, Form, Slider, Collapse, Button, ConfigProvider } from "antd";
+import { Layout, Flex, Form, Slider, Collapse, Button, ConfigProvider, Select } from "antd";
 import { CameraOutlined, ReloadOutlined } from "@ant-design/icons";
+import { FontData } from "three/examples/jsm/loaders/FontLoader.js";
 import { HappyProvider } from '@ant-design/happy-work-theme';
 import ThreeCanvas, { ThreeCanvasHandle } from "./components/ThreeCanvas";
 import "antd/dist/reset.css";
@@ -11,6 +12,25 @@ import { materialGradientLightBlue, materialGradientMediumYellow } from "./prese
 
 const { Sider, Content } = Layout;
 const { Panel } = Collapse;
+
+import HYLiLiangHeiJ_Regular from "./assets/font/HYLiLiangHeiJ_Regular.json";
+import REEJI_TaikoMagic from "./assets/font/REEJI-TaikoMagicGB-Flash_Regular.json";
+import Minecraft_Ten from "./assets/font/Minecraft_Ten_Regular.json";
+import Fusion_Pixel_8px_Monospaced_zh_hans_Regular from "./assets/font/Fusion_Pixel_8px_Monospaced_zh_hans_Regular.json";
+import Fusion_Pixel_10px_Monospaced_zh_hans_Regular from "./assets/font/Fusion_Pixel_10px_Monospaced_zh_hans_Regular.json";
+
+// 字体映射
+//@ts-ignore
+const fontsMap: {[name: string]: FontData} = {
+    "REEJI Taiko Magic": REEJI_TaikoMagic,
+    //@ts-ignore
+    "汉仪力量黑(简)": HYLiLiangHeiJ_Regular,
+    "Minecraft Ten": Minecraft_Ten,
+    //@ts-ignore
+    "Fusion Pixel 8px": Fusion_Pixel_8px_Monospaced_zh_hans_Regular,
+    //@ts-ignore
+    "Fusion Pixel 10px": Fusion_Pixel_10px_Monospaced_zh_hans_Regular,
+};
 
 const App: React.FC = () => {
     const [text1, setText1] = useState("我的世界");
@@ -39,6 +59,8 @@ const App: React.FC = () => {
         letterSpacing: 1.5
     });
 
+    const [selectedFont, setSelectedFont] = useState("REEJI Taiko Magic"); // 当前选中的字体
+
     // 创建一个引用来访问 ThreeCanvas 的截图和重置功能
     const threeCanvasRef = useRef<ThreeCanvasHandle>(null);
 
@@ -59,7 +81,15 @@ const App: React.FC = () => {
             theme={{
                 token: {
                     colorPrimary: '#333333',
-                }
+                },
+                components: {
+                    Select: {
+                        optionSelectedBg: 'rgba(0, 0, 0, 0.12)',
+                    },
+                    Form: {
+                        itemMarginBottom: 16
+                    },
+                },
             }}
         >
             <Layout style={{ height: "100vh" }}>
@@ -67,9 +97,21 @@ const App: React.FC = () => {
                 <Sider width={300} style={{ background: "#F5F5F5", padding: 16, overflow: "auto" }}>
                     <Flex vertical gap={"middle"} style={{ width: "100%" }}>
                         <Collapse defaultActiveKey={["camera"]} bordered={false} style={{ background: "white", boxShadow: "0 2px 16px rgba(0, 0, 0, 0.05)" }}>
-                            {/* 第一行文字 */}
-                            <Panel header="相机设置" key="camera">
-                                <Form.Item label={`透视角度 (${cameraOptions.fov})`} style={{ marginBottom: 0 }}>
+                            <Panel header="场景&相机 设置" key="camera">
+                                <Form.Item label="字体">
+                                    <Select
+                                        value={selectedFont}
+                                        onChange={(value) => setSelectedFont(value)}
+                                        style={{ width: "100%" }}
+                                    >
+                                        {Object.keys(fontsMap).map((fontName) => (
+                                            <Select.Option key={fontName} value={fontName}>
+                                                {fontName}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+                                <Form.Item label={`透视角度 (${cameraOptions.fov}°)`} style={{ marginBottom: 0 }}>
                                     <Slider
                                         min={1}
                                         max={120}
@@ -112,6 +154,7 @@ const App: React.FC = () => {
                         text2={text2}
                         text1Options={text1Options}
                         text2Options={text2Options}
+                        font={fontsMap[selectedFont]}
                     />
                     {/* 添加截图按钮 */}
                     <Flex gap={"small"} style={{ position: "absolute", top: 20, right: 20, zIndex: 1 }}>

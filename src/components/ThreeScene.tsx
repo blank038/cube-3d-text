@@ -2,10 +2,10 @@
 import React, { Suspense, useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 import { Html } from "@react-three/drei";
+import { Font } from "three/examples/jsm/loaders/FontLoader.js";
 import Text3D from "./Text3D";
 import { TextOptions } from "../types/text";
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
-import fontJson from "../assets/REEJI-TaikoMagicGB-Flash_Regular.json";
+import { FontLoader, FontData } from "three/examples/jsm/loaders/FontLoader.js";
 import { useThree } from "@react-three/fiber";
 
 interface ThreeSceneProps {
@@ -13,6 +13,7 @@ interface ThreeSceneProps {
     text2: string;
     text1Options: TextOptions;
     text2Options: TextOptions;
+    font: FontData;
 }
 
 const ThreeScene: React.FC<ThreeSceneProps> = ({
@@ -20,6 +21,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
                                                    text2,
                                                    text1Options,
                                                    text2Options,
+                                                   font: fontData
                                                }) => {
 
     const text1Ref = useRef<THREE.Group>(null);
@@ -28,9 +30,15 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
     //@ts-ignore
     const [selectedObjects, setSelectedObjects] = useState<THREE.Object3D[]>([]);
 
-    // 加载字体
-    const fontLoader = new FontLoader();
-    const loadedFont = fontLoader.parse(fontJson);
+    const [font, setFont] = useState<Font | null>(null);
+
+    useEffect(() => {
+        console.log("加载字体");
+        // 加载字体
+        const fontLoader = new FontLoader();
+        const loadedFont = fontLoader.parse(fontData);
+        setFont(loadedFont);
+    }, [fontData]); // 每次 fontUrl 变化时重新加载字体
 
     const { scene } = useThree();
 
@@ -57,22 +65,24 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
 
             {/* 创建文本网格 */}
             <Suspense fallback={<Html>Loading...</Html>}>
-                <group>
-                    <Text3D
-                        content={text1}
-                        opts={text1Options}
-                        font={loadedFont}
-                        position={[0, text1Options.y, 0]}
-                        ref={text1Ref}
-                    />
-                    <Text3D
-                        content={text2}
-                        opts={text2Options}
-                        font={loadedFont}
-                        position={[0, text2Options.y, 0]}
-                        ref={text2Ref}
-                    />
-                </group>
+                {font && (
+                    <group>
+                        <Text3D
+                            content={text1}
+                            opts={text1Options}
+                            font={font}
+                            position={[0, text1Options.y, 0]}
+                            ref={text1Ref}
+                        />
+                        <Text3D
+                            content={text2}
+                            opts={text2Options}
+                            font={font}
+                            position={[0, text2Options.y, 0]}
+                            ref={text2Ref}
+                        />
+                    </group>
+                )}
             </Suspense>
 
             {/* 添加描边效果 */}
