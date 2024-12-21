@@ -91,16 +91,18 @@ interface CreateSpacedTextGeometryOptions {
 }
 
 export const createSpacedTextGeometry = ({
-    text,
-    font,
-    size,
-    height,
-    curveSegments,
-    bevelEnabled,
-    letterSpacing = 0
-}: CreateSpacedTextGeometryOptions): THREE.BufferGeometry => {
+                                             text,
+                                             font,
+                                             size,
+                                             height,
+                                             curveSegments,
+                                             bevelEnabled,
+                                             letterSpacing = 0
+                                         }: CreateSpacedTextGeometryOptions): THREE.BufferGeometry => {
     const geometries: THREE.BufferGeometry[] = [];
     let offsetX = 0;
+
+    const spacing = size * 0.12;
 
     for (let i = 0; i < text.length; i++) {
         const char = text[i];
@@ -108,7 +110,7 @@ export const createSpacedTextGeometry = ({
             // Handle space: set spacing based on font's space width
             const metrics = (font.data as ExtendedFontData).metrics;
             const spaceWidth = metrics && metrics.advanceWidth ? (metrics.advanceWidth * size / 1000) : (size * 0.3);
-            offsetX += spaceWidth + letterSpacing;
+                offsetX += spaceWidth + letterSpacing * spacing;
             continue;
         }
 
@@ -127,7 +129,7 @@ export const createSpacedTextGeometry = ({
         geometries.push(charGeometry);
 
         // Update offset for the next character
-        offsetX += charWidth + letterSpacing;
+        offsetX += charWidth + letterSpacing * spacing;
     }
 
     // Merge all character geometries
@@ -191,13 +193,15 @@ export const createSpacedTextGeometryOutline = ({
     const allShapes: THREE.Shape[] = [];
     let offsetX = 0;
 
+    const spacing = size * 0.12;
+
     for (let i = 0; i < text.length; i++) {
         const char = text[i];
         if (char === " ") {
             // 处理空格：根据字体的空格宽度设置间距
             const metrics = (font.data as ExtendedFontData).metrics;
             const spaceWidth = metrics && metrics.advanceWidth ? (metrics.advanceWidth * size / 1000) : (size * 0.3);
-            offsetX += spaceWidth + letterSpacing;
+            offsetX += spaceWidth + letterSpacing * spacing;
             continue;
         }
 
@@ -247,7 +251,7 @@ export const createSpacedTextGeometryOutline = ({
         const charWidth = charGeometry.boundingBox ? charGeometry.boundingBox.max.x - charGeometry.boundingBox.min.x : size;
 
         // 更新下一个字符的偏移量
-        offsetX += charWidth + letterSpacing;
+        offsetX += charWidth + letterSpacing * spacing;
     }
 
     // 使用合并后的所有形状创建几何体

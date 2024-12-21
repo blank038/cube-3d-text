@@ -53,6 +53,8 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
         [opts.materials, boundingBox]
     );
 
+    const height = boundingBox.max.y - boundingBox.min.y;
+
     const geometryOutline = useMemo(() => {
         if (!content) {
             return new THREE.BufferGeometry();
@@ -62,7 +64,7 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
             font,
             size: opts.size,
             height: opts.depth,
-            outlineWidth: opts.outlineWidth,
+            outlineWidth: opts.outlineWidth * (height / 10),
             curveSegments: 12,
             bevelEnabled: false,
             letterSpacing: opts.letterSpacing

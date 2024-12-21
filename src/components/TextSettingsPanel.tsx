@@ -36,7 +36,7 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     onChange={(val) => onTextOptionsChange({ ...textOptions, y: val })}
                 />
             </Form.Item>
-            <Form.Item label={`文字大小 (${textOptions.size})`}>
+            <Form.Item label={`文字大小 (${textOptions.size.toFixed(1)})`}>
                 <Slider
                     min={1}
                     max={20}
@@ -54,7 +54,7 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     onChange={(val) => onTextOptionsChange({ ...textOptions, letterSpacing: val })}
                 />
             </Form.Item>
-            <Form.Item label={`文字厚度 (${textOptions.depth})`}>
+            <Form.Item label={`文字厚度 (${textOptions.depth.toFixed(1)})`}>
                 <Slider
                     min={1}
                     max={10}
@@ -80,11 +80,11 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     )}
                 </Flex>
             </Form.Item>
-            <Form.Item label={`描边大小 (${textOptions.outlineWidth})`}>
+            <Form.Item label={`描边大小 (${textOptions.outlineWidth.toFixed(1)})`}>
                 <Slider
                     min={0}
-                    max={2.0}
-                    step={0.1}
+                    max={1.0}
+                    step={0.05}
                     value={textOptions.outlineWidth}
                     onChange={(val) => onTextOptionsChange({ ...textOptions, outlineWidth: val })}
                 />

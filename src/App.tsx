@@ -25,7 +25,7 @@ const App: React.FC = () => {
         depth: 5,
         y: 8,
         materials: materialGradientMediumYellow,
-        outlineWidth: 0.5,
+        outlineWidth: 0.4,
         letterSpacing: 1.0
     });
 
@@ -34,8 +34,8 @@ const App: React.FC = () => {
         depth: 3,
         y: -4,
         materials: materialGradientLightBlue,
-        outlineWidth: 0.3,
-        letterSpacing: 1.0
+        outlineWidth: 0.5,
+        letterSpacing: 1.5
     });
 
     // 创建一个引用来访问 ThreeCanvas 的截图和重置功能
