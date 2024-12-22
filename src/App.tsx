@@ -1,6 +1,6 @@
 // src/App.tsx
 import React, { useState, useRef } from "react";
-import { Layout, Flex, Form, Slider, Collapse, Button, ConfigProvider, Select } from "antd";
+import { Layout, Flex, Form, Slider, Collapse, Button, ConfigProvider, Select, Dropdown, Space, Typography } from "antd";
 import { CameraOutlined, GlobalOutlined, ReloadOutlined } from "@ant-design/icons";
 import { HappyProvider } from '@ant-design/happy-work-theme';
 import ThreeCanvas, { ThreeCanvasHandle } from "./components/ThreeCanvas";
@@ -78,6 +78,10 @@ const App: React.FC = () => {
                     colorPrimary: '#333333',
                 },
                 components: {
+                    Dropdown: {
+                        controlItemBgActive: 'rgba(0, 0, 0, 0.12)',
+                        controlItemBgActiveHover: 'rgba(0, 0, 0, 0.2)',
+                    },
                     Select: {
                         optionSelectedBg: 'rgba(0, 0, 0, 0.12)',
                     },
@@ -154,18 +158,6 @@ const App: React.FC = () => {
                         />
                         {/* 添加截图按钮 */}
                         <Flex gap={"small"} style={{ position: "absolute", top: 20, right: 20, zIndex: 1 }}>
-                            <Select
-                                prefix={<GlobalOutlined />}
-                                defaultValue={language}
-                                style={{ width: 120 }}
-                                onChange={(value: string) => {
-                                    setLanguage(value);
-                                }}
-                                options={[
-                                    { value: 'zh_CN', label: gLang('zh_CN') },
-                                    { value: 'en_US', label: gLang('en_US') },
-                                ]}
-                            />
                             <Button
                                 type="default"
                                 icon={<ReloadOutlined />}
@@ -182,6 +174,27 @@ const App: React.FC = () => {
                                     {gLang('screenshot')}
                                 </Button>
                             </HappyProvider>
+                        </Flex>
+                        <Flex style={{ position: "absolute", bottom: 20, right: 20, zIndex: 1 }}>
+                            <Dropdown
+                                menu={{
+                                    items: [
+                                        { key: 'zh_CN', label: gLang('zh_CN') },
+                                        { key: 'en_US', label: gLang('en_US') },
+                                        { key: 'ja_JP', label: gLang('ja_JP') },
+                                    ],
+                                    selectable: true,
+                                    defaultSelectedKeys: [language],
+                                    onSelect: ({ key }) => setLanguage(key)
+                                }}
+                            >
+                                <Typography.Text type={'secondary'} style={{ cursor: 'default', userSelect: 'none' }}>
+                                    <Space>
+                                        <GlobalOutlined />
+                                        {gLang(language)}
+                                    </Space>
+                                </Typography.Text>
+                            </Dropdown>
                         </Flex>
                     </Content>
                 </Layout>
