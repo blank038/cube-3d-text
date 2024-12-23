@@ -3,17 +3,14 @@ import * as THREE from "three";
 import { Html } from "@react-three/drei";
 import { Font } from "three/examples/jsm/loaders/FontLoader.js";
 import Text3D from "./Text3D";
-import { TextOptions } from "../types/text";
+import { Text3DData } from "../types/text";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { useThree } from "@react-three/fiber";
 import { useMessage } from "../contexts/MessageContext";
 import { useLanguage } from "../language";
 
 interface ThreeSceneProps {
-    text1: string;
-    text2: string;
-    text1Options: TextOptions;
-    text2Options: TextOptions;
+    texts: Text3DData[];
     fontUrl: string;
 }
 
@@ -23,7 +20,7 @@ export interface ThreeSceneHandle {
     groupRef: React.RefObject<THREE.Group>;
 }
 
-const ThreeScene = forwardRef<ThreeSceneHandle, ThreeSceneProps>(({ text1, text2, text1Options, text2Options, fontUrl }, ref) => {
+const ThreeScene = forwardRef<ThreeSceneHandle, ThreeSceneProps>(({ texts, fontUrl }, ref) => {
 
     const groupRef = useRef<THREE.Group>(null);
 
@@ -104,22 +101,16 @@ const ThreeScene = forwardRef<ThreeSceneHandle, ThreeSceneProps>(({ text1, text2
             <Suspense fallback={<Html>Loading...</Html>}>
                 {font && (
                     <group ref={groupRef}>
-                        <Text3D
-                            content={text1}
-                            opts={text1Options}
-                            font={font}
-                            position={[0, text1Options.y, 0]}
-                            rotation={[text1Options.rotY * (Math.PI / 180), 0, 0]}
-                            ref={text1Ref}
-                        />
-                        <Text3D
-                            content={text2}
-                            opts={text2Options}
-                            font={font}
-                            position={[0, text2Options.y, 0]}
-                            rotation={[text2Options.rotY * (Math.PI / 180), 0, 0]}
-                            ref={text2Ref}
-                        />
+                        {texts.map((text, index) => (
+                            <Text3D
+                                key={index}
+                                content={text.content}
+                                opts={text.opts}
+                                font={font}
+                                position={[0, text.opts.y, 0]}
+                                rotation={[text.opts.rotY * (Math.PI / 180), 0, 0]}
+                            />
+                        ))}
                     </group>
                 )}
             </Suspense>

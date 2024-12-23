@@ -1,3 +1,15 @@
+export interface Text3DData {
+    content: string;
+    opts: TextOptions;
+    position: [number, number, number];
+    rotation: [number, number, number];
+}
+
+export interface WorkspaceData {
+    fontId: string;
+    texts: Text3DData[];
+}
+
 export interface TextOptions {
     size: number;
     depth: number;

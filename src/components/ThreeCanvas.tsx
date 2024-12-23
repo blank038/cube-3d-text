@@ -3,7 +3,7 @@ import { forwardRef, useImperativeHandle, useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas, useThree } from "@react-three/fiber";
-import { TextOptions, CameraOptions } from "../types/text";
+import { CameraOptions, Text3DData } from "../types/text";
 import ThreeScene, { ThreeSceneHandle } from "./ThreeScene.tsx";
 import { GLTFExporter, OBJExporter, STLExporter, OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { useMessage } from "../contexts/MessageContext.tsx";
@@ -16,10 +16,7 @@ export interface ThreeCanvasHandle {
 
 interface ThreeCanvasProps {
     cameraOptions: CameraOptions;
-    text1: string;
-    text2: string;
-    text1Options: TextOptions;
-    text2Options: TextOptions;
+    texts: Text3DData[];
     fontUrl: string;
 }
 
@@ -43,7 +40,7 @@ interface ScreenshotProps {
 }
 
 const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref) => {
-    const { text1, text2, text1Options, text2Options, cameraOptions, fontUrl } = props;
+    const { texts, cameraOptions, fontUrl } = props;
     const orbitRef = useRef<OrbitControlsImpl>(null);
     const threeSceneRef = useRef<ThreeSceneHandle>(null);
     const messageApi = useMessage();
@@ -300,10 +297,7 @@ const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref)
             <CameraController fov={cameraOptions.fov} />
             <ThreeScene
                 ref={threeSceneRef}
-                text1={text1}
-                text2={text2}
-                text1Options={text1Options}
-                text2Options={text2Options}
+                texts={texts}
                 fontUrl={fontUrl}
             />
             <OrbitControls ref={orbitRef} enableDamping={false} dampingFactor={0} />

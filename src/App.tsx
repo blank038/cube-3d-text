@@ -1,11 +1,12 @@
 // src/App.tsx
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Layout, Flex, Form, Slider, Collapse, Button, ConfigProvider, Select, Dropdown, Space, Typography, MenuProps } from "antd";
-import { AppstoreOutlined, BookOutlined, CameraOutlined, CompassOutlined, GlobalOutlined, ReloadOutlined } from "@ant-design/icons";
+import { AppstoreOutlined, BookOutlined, CameraOutlined, CompassOutlined,
+    DeleteOutlined, GlobalOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons";
 import { HappyProvider } from '@ant-design/happy-work-theme';
 import ThreeCanvas, { ThreeCanvasHandle } from "./components/ThreeCanvas";
 import "antd/dist/reset.css";
-import { TextOptions, CameraOptions } from "./types/text";
+import { CameraOptions, Text3DData, WorkspaceData } from "./types/text";
 import TextSettingsPanel from "./components/TextSettingsPanel.tsx";
 import { materialGradientLightBlue, materialGradientMediumYellow } from "./presetMaterials.ts";
 import { MessageProvider } from "./contexts/MessageContext";
@@ -26,37 +27,46 @@ const fontsMap: { [name: string]: string } = {
 const App: React.FC = () => {
     const { language, setLanguage, gLang } = useLanguage();
 
-    const [text1, setText1] = useState(gLang('defaultText1'));
-    const [text2, setText2] = useState(gLang('defaultText2'));
+    const [texts, setTexts] = useState<Text3DData[]>([
+        {
+            content: gLang('defaultText1'),
+            opts: {
+                size: 10,
+                depth: 5,
+                y: 8,
+                rotY: 0,
+                materials: materialGradientMediumYellow,
+                outlineWidth: 0.4,
+                letterSpacing: 1.0,
+                spacingWidth: 0.2
+            },
+            position: [0, 0, 0],
+            rotation: [0, 0, 0]
+        },
+        {
+            content: gLang('defaultText2'),
+            opts: {
+                size: 5,
+                depth: 3,
+                y: -4,
+                rotY: 0,
+                materials: materialGradientLightBlue,
+                outlineWidth: 0.5,
+                letterSpacing: 1.5,
+                spacingWidth: 0.2
+            },
+            position: [0, 0, 0],
+            rotation: [0, 0, 0]
+        }
+    ]);
 
     const [cameraOptions, setCameraOptions] = useState<CameraOptions>({
         fov: 75
     });
 
-    // 配置文字的样式
-    const [text1Options, setText1Options] = useState<TextOptions>({
-        size: 10,
-        depth: 5,
-        y: 8,
-        rotY: 0,
-        materials: materialGradientMediumYellow,
-        outlineWidth: 0.4,
-        letterSpacing: 1.0,
-        spacingWidth: 0.2
-    });
-
-    const [text2Options, setText2Options] = useState<TextOptions>({
-        size: 5,
-        depth: 3,
-        y: -4,
-        rotY: 0,
-        materials: materialGradientLightBlue,
-        outlineWidth: 0.5,
-        letterSpacing: 1.5,
-        spacingWidth: 0.2
-    });
-
     const [selectedFont, setSelectedFont] = useState(language === 'en_US' ? "Minecraft Ten" : "Fusion Pixel 10px"); // 当前选中的字体
+
+    const [textPanelActiveKeys, setTextPanelActiveKeys] = useState<string[]>(['1']);
 
     // 创建一个引用来访问 ThreeCanvas 的截图和重置功能
     const threeCanvasRef = useRef<ThreeCanvasHandle>(null);
@@ -80,6 +90,16 @@ const App: React.FC = () => {
             threeCanvasRef.current.resetCamera();
         }
     }
+
+    // 自动保存工作区
+    useEffect(() => {
+        const workspace: WorkspaceData = {
+            fontId: selectedFont,
+            texts: texts
+        };
+        // 保存工作区数据
+        localStorage.setItem('workspace', JSON.stringify(workspace));
+    }, [selectedFont, texts]);
     
     return (
         <ConfigProvider
@@ -107,7 +127,7 @@ const App: React.FC = () => {
             <MessageProvider>
                 <Layout style={{ height: "100vh" }}>
                     {/* 左侧配置面板 */}
-                    <Sider width={300} style={{ background: "#F5F5F5", padding: 16, overflow: "auto" }}>
+                    <Sider width={300} style={{ background: "#F5F5F5", padding: 16, overflow: "auto", marginBottom: 16 }}>
                         <Flex vertical gap={"middle"} style={{ width: "100%" }}>
                             <Collapse defaultActiveKey={["camera"]} bordered={false} style={{ background: "white", boxShadow: "0 2px 16px rgba(0, 0, 0, 0.05)" }}>
                                 <Panel header={gLang('cameraSettings')} key="camera">
@@ -135,27 +155,76 @@ const App: React.FC = () => {
                                     </Form.Item>
                                 </Panel>
                             </Collapse>
-                            <Collapse defaultActiveKey={["1", "2"]} bordered={false} style={{ background: "white", boxShadow: "0 2px 16px rgba(0, 0, 0, 0.05)" }}>
-                                {/* 第一行文字 */}
-                                <Panel header={gLang('text1')} key="1">
-                                    <TextSettingsPanel
-                                        text={text1}
-                                        textOptions={text1Options}
-                                        onTextChange={setText1}
-                                        onTextOptionsChange={setText1Options}
-                                    />
-                                </Panel>
-
-                                {/* 第二行文字 */}
-                                <Panel header={gLang('text2')} key="2">
-                                    <TextSettingsPanel
-                                        text={text2}
-                                        textOptions={text2Options}
-                                        onTextChange={setText2}
-                                        onTextOptionsChange={setText2Options}
-                                    />
-                                </Panel>
-                            </Collapse>
+                            {texts.length > 0 &&
+                                <Collapse activeKey={textPanelActiveKeys} onChange={setTextPanelActiveKeys} bordered={false} style={{ background: "white", boxShadow: "0 2px 16px rgba(0, 0, 0, 0.05)" }}>
+                                    {texts.map((text, index) => (
+                                        <Panel
+                                            header={text.content ? text.content : gLang(`textPanelTitle`, { index: index + 1 })}
+                                            key={index + 1}
+                                            extra={
+                                                <Flex style={{ height: 22, width: 22, marginTop: -2 }}>
+                                                    <Button
+                                                        type={"text"}
+                                                        size={'small'}
+                                                        style={{
+                                                            height: 26,
+                                                            width: 26,
+                                                        }}
+                                                        onClick={() => {
+                                                            const newTexts = [...texts];
+                                                            newTexts.splice(index, 1);
+                                                            setTexts(newTexts);
+                                                        }}
+                                                    >
+                                                        <DeleteOutlined style={{ opacity: 0.5 }} />
+                                                    </Button>
+                                                </Flex>
+                                            }
+                                        >
+                                            <TextSettingsPanel
+                                                text={text.content}
+                                                textOptions={text.opts}
+                                                onTextChange={(newText) => {
+                                                    const newTexts = [...texts];
+                                                    newTexts[index].content = newText;
+                                                    setTexts(newTexts);
+                                                }}
+                                                onTextOptionsChange={(newOptions) => {
+                                                    const newTexts = [...texts];
+                                                    newTexts[index].opts = newOptions;
+                                                    setTexts(newTexts);
+                                                }}
+                                            />
+                                        </Panel>
+                                    ))}
+                                </Collapse>
+                            }
+                            <Button
+                                type="dashed"
+                                icon={<PlusOutlined />}
+                                onClick={() => {
+                                    setTexts([
+                                        ...texts,
+                                        {
+                                            content: 'New Text',
+                                            opts: {
+                                                size: 5,
+                                                depth: 3,
+                                                y: texts.length * -6,
+                                                rotY: 0,
+                                                materials: materialGradientLightBlue,
+                                                outlineWidth: 0.5,
+                                                letterSpacing: 1.5,
+                                                spacingWidth: 0.2
+                                            },
+                                            position: [0, 0, 0],
+                                            rotation: [0, 0, 0]
+                                        }
+                                    ]);
+                                }}
+                            >
+                                {gLang('addText')}
+                            </Button>
                         </Flex>
                     </Sider>
                     {/* 右侧 3D 场景 */}
@@ -163,10 +232,7 @@ const App: React.FC = () => {
                         <ThreeCanvas
                             ref={threeCanvasRef}
                             cameraOptions={cameraOptions}
-                            text1={text1}
-                            text2={text2}
-                            text1Options={text1Options}
-                            text2Options={text2Options}
+                            texts={texts}
                             fontUrl={fontsMap[selectedFont]}
                         />
                         {/* 添加截图按钮 */}
