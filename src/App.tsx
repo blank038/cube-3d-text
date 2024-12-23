@@ -117,6 +117,7 @@ const App: React.FC = () => {
         };
         // 保存工作区数据
         localStorage.setItem('workspace', JSON.stringify(workspace));
+        setLastWorkshop(null);
     }, [texts]);
     
     return (
@@ -239,6 +240,7 @@ const App: React.FC = () => {
                                             rotation: [0, 0, 0]
                                         }
                                     ]);
+                                    setTextPanelActiveKeys([(texts.length + 1).toString()]);
                                 }}
                             >
                                 {gLang('addText')}
