@@ -299,7 +299,7 @@ export const materialSnow: TextMaterials = {
         repeatX: 1,
         repeatY: 1,
         offsetX: 0,
-        offsetY: 0.1,
+        offsetY: 0,
     } as TextMaterialImageOption,
     back: {
         mode: "color",
