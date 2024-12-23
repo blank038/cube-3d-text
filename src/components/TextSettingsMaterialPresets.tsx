@@ -80,12 +80,12 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
                     >
                         <Button
                             block
-                            type={preset === materials ? 'primary' : undefined}
-                            ghost={preset === materials}
+                            type={JSON.stringify(preset) === JSON.stringify(materials) ? 'primary' : undefined}
+                            ghost={JSON.stringify(preset) === JSON.stringify(materials)}
                             onClick={() => onMaterialsChange(preset)}
                             style={renderPreview(preset)}
                         >
-                            {preset === materials && <CheckSquareTwoTone twoToneColor={iconColor(preset)}/>}
+                            {JSON.stringify(preset) === JSON.stringify(materials) && <CheckSquareTwoTone twoToneColor={iconColor(preset)}/>}
                         </Button>
                     </ConfigProvider>
                 ))}

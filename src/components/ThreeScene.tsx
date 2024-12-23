@@ -46,30 +46,32 @@ const ThreeScene = forwardRef<ThreeSceneHandle, ThreeSceneProps>(({ texts, fontU
         }
         // 加载字体
         const fontLoader = new FontLoader();
-        messageApi?.open({
-            key: 'loadingFont',
-            type: 'loading',
-            content: gLang('fontLoading'),
-        });
+        const startTime = Date.now();
         fontLoader.load(
             fontUrl,
             (font) => {
                 setFont(font);
                 cachedFonts[fontUrl] = font;
-                messageApi?.open({
-                    key: 'loadingFont',
-                    type: 'success',
-                    content: gLang('fontSuccess'),
-                    duration: 2,
-                });
+                const now = Date.now();
+                if (now - startTime > 1000) {
+                    messageApi?.open({
+                        key: 'loadingFont',
+                        type: 'success',
+                        content: gLang('fontSuccess'),
+                        duration: 2,
+                    });
+                }
             },
             (progress) => {
-                messageApi?.open({
-                    key: 'loadingFont',
-                    type: 'loading',
-                    content: gLang('fontLoading') + Math.round(progress.loaded),
-                    duration: 60,
-                });
+                const now = Date.now();
+                if (now - startTime > 1000) {
+                    messageApi?.open({
+                        key: 'loadingFont',
+                        type: 'loading',
+                        content: gLang('fontLoading') + Math.round(progress.loaded),
+                        duration: 60,
+                    });
+                }
             }
         );
     }, [fontUrl]); // 每次 fontUrl 变化时重新加载字体

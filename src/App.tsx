@@ -1,6 +1,6 @@
 // src/App.tsx
 import React, { useState, useRef, useEffect } from "react";
-import { Layout, Flex, Form, Slider, Collapse, Button, ConfigProvider, Select, Dropdown, Space, Typography, MenuProps } from "antd";
+import { Layout, Flex, Form, Slider, Collapse, Button, ConfigProvider, Select, Dropdown, Space, Typography, MenuProps, Alert } from "antd";
 import { AppstoreOutlined, BookOutlined, CameraOutlined, CompassOutlined,
     DeleteOutlined, GlobalOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons";
 import { HappyProvider } from '@ant-design/happy-work-theme';
@@ -68,6 +68,8 @@ const App: React.FC = () => {
 
     const [textPanelActiveKeys, setTextPanelActiveKeys] = useState<string[]>(['1']);
 
+    const [lastWorkshop, setLastWorkshop] = useState<WorkspaceData | null>(null);
+
     // 创建一个引用来访问 ThreeCanvas 的截图和重置功能
     const threeCanvasRef = useRef<ThreeCanvasHandle>(null);
 
@@ -91,15 +93,31 @@ const App: React.FC = () => {
         }
     }
 
+    // 自动加载工作区
+    useEffect(() => {
+        const workspaceStr = localStorage.getItem('workspace');
+        if (workspaceStr) {
+            const workspace: WorkspaceData = JSON.parse(workspaceStr);
+            setLastWorkshop(workspace);
+        }
+    }, []);
+
+    const [initTime] = useState<number>(Date.now());
+
     // 自动保存工作区
     useEffect(() => {
+        const now = Date.now();
+        // 只有在 5 秒后才会自动保存
+        if (now - initTime < 5000) {
+            return;
+        }
         const workspace: WorkspaceData = {
             fontId: selectedFont,
             texts: texts
         };
         // 保存工作区数据
         localStorage.setItem('workspace', JSON.stringify(workspace));
-    }, [selectedFont, texts]);
+    }, [texts]);
     
     return (
         <ConfigProvider
@@ -280,6 +298,8 @@ const App: React.FC = () => {
                             </HappyProvider>
 
                         </Flex>
+
+                        {/* 右小角悬浮 */}
                         <Flex style={{ position: "absolute", bottom: 8, right: 8, zIndex: 1 }}>
                             <Dropdown
                                 menu={{
@@ -302,6 +322,45 @@ const App: React.FC = () => {
                                     </Typography.Text>
                                 </Button>
                             </Dropdown>
+                        </Flex>
+
+                        {/*顶部悬浮*/}
+                        <Flex style={{ position: "absolute", top: 8, zIndex: 1, width: "100%" }} justify={'center'}>
+                            {lastWorkshop && (
+                                <Alert
+                                    message={gLang('lastSaved.message', { count: lastWorkshop.texts.length })}
+                                    type="info"
+                                    showIcon
+                                    action={
+                                        <Space size={0} style={{ marginLeft: 12 }}>
+                                            <Button
+                                                size="small"
+                                                type="text"
+                                                style={{ paddingLeft: 4, paddingRight: 4 }}
+                                                onClick={() => {
+                                                    setLastWorkshop(null);
+                                                    localStorage.removeItem('workspace');
+                                                }}
+                                            >
+                                                {gLang('lastSaved.delete')}
+                                            </Button>
+                                            <Button
+                                                size="small"
+                                                type="link"
+                                                style={{ paddingLeft: 4, paddingRight: 4 }}
+                                                onClick={() => {
+                                                    setSelectedFont(lastWorkshop.fontId);
+                                                    setTexts(lastWorkshop.texts);
+                                                    setLastWorkshop(null);
+                                                }}
+                                            >
+                                                {gLang('lastSaved.apply')}
+                                            </Button>
+                                        </Space>
+                                    }
+                                    closable
+                                />
+                            )}
                         </Flex>
                     </Content>
                 </Layout>

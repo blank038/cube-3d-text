@@ -66,6 +66,11 @@ export const languageConfig: Readonly<LanguageConfig> = {
             gltf: "导出 GLTF 模型",
             obj: "导出 OBJ 模型（不包含纹理）",
             stl: "导出 STL 模型（不包含纹理）"
+        },
+        lastSaved: {
+            message: "是否恢复到上次的场景？({count}行文字)",
+            apply: "恢复",
+            delete: "删除"
         }
     },
     en_US: {
@@ -120,6 +125,11 @@ export const languageConfig: Readonly<LanguageConfig> = {
             gltf: "Export GLTF Model",
             obj: "Export OBJ Model",
             stl: "Export STL Model"
+        },
+        lastSaved: {
+            message: "Restore the last scene? ({count} texts)",
+            apply: "Apply",
+            delete: "Delete"
         }
     },
     ja_JP: {
@@ -174,6 +184,11 @@ export const languageConfig: Readonly<LanguageConfig> = {
             gltf: "GLTFモデルをエクスポート",
             obj: "OBJモデルをエクスポート",
             stl: "STLモデルをエクスポート"
+        },
+        lastSaved: {
+            message: "前回のシーンに戻りますか？（{count}行）",
+            apply: "適用",
+            delete: "削除"
         }
     },
 };
