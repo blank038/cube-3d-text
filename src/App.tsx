@@ -1,8 +1,27 @@
 // src/App.tsx
-import React, { useState, useRef, useEffect } from "react";
-import { Layout, Flex, Form, Slider, Collapse, Button, ConfigProvider, Select, Dropdown, Space, Typography, MenuProps, Alert } from "antd";
-import { AppstoreOutlined, BookOutlined, CameraOutlined, CompassOutlined,
-    DeleteOutlined, GlobalOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons";
+import React, { useEffect, useRef, useState } from "react";
+import {
+    Alert,
+    Button,
+    Collapse,
+    ConfigProvider,
+    Dropdown,
+    Flex,
+    Layout,
+    MenuProps,
+    Space,
+    Typography
+} from "antd";
+import {
+    AppstoreOutlined,
+    BookOutlined,
+    CameraOutlined,
+    CompassOutlined,
+    DeleteOutlined,
+    GlobalOutlined,
+    PlusOutlined,
+    ReloadOutlined
+} from "@ant-design/icons";
 import { HappyProvider } from '@ant-design/happy-work-theme';
 import ThreeCanvas, { ThreeCanvasHandle } from "./components/ThreeCanvas";
 import "antd/dist/reset.css";
@@ -11,21 +30,33 @@ import TextSettingsPanel from "./components/TextSettingsPanel.tsx";
 import { materialGradientLightBlue, materialGradientMediumYellow } from "./presetMaterials.ts";
 import { MessageProvider } from "./contexts/MessageContext";
 import { useLanguage } from "./language.tsx";
+import SceneAndCameraSettingsPanel from "./components/SceneAndCameraSettingsPanel.tsx";
+import { builtinFontsMap } from "./utils/fonts.ts";
 
 const { Sider, Content } = Layout;
 const { Panel } = Collapse;
 
-// 字体映射
-const fontsMap: { [name: string]: string } = {
-    "REEJI Taiko Magic": "font/REEJI-TaikoMagicGB-Flash_Regular.json",
-    "汉仪力量黑(简)": "font/HYLiLiangHeiJ_Regular.json",
-    "Minecraft Ten": "font/Minecraft_Ten_Regular.json",
-    "Fusion Pixel 8px": "font/Fusion_Pixel_8px_Proportional_zh_hans_Regular.json",
-    "Fusion Pixel 10px": "font/Fusion_Pixel_10px_Proportional_zh_hans_Regular.json",
-};
-
 const App: React.FC = () => {
     const { language, setLanguage, gLang } = useLanguage();
+
+    const [selectedFont, setSelectedFont] = useState(language === "en_US" ? "Minecraft Ten" : "Fusion Pixel 10px");
+    const [customFonts, setCustomFonts] = useState<{ [fontName: string]: string }>(() => {
+        const stored = localStorage.getItem("customFonts");
+        return stored ? JSON.parse(stored) : {};
+    });
+    //   注意：为了刷新能实时看到，你可以把它拆分成 hooks 或在 render 里实时合并
+    const [fontsMap, setFontsMap] = useState<{ [name: string]: string }>({
+        ...builtinFontsMap,
+        ...customFonts,
+    });
+    useEffect(() => {
+        // 当 customFonts 有变动时，合并到 fontsMap 并存储到 localStorage
+        setFontsMap({
+            ...builtinFontsMap,
+            ...customFonts,
+        });
+        localStorage.setItem("customFonts", JSON.stringify(customFonts));
+    }, [customFonts]);
 
     const [texts, setTexts] = useState<Text3DData[]>([
         {
@@ -63,8 +94,6 @@ const App: React.FC = () => {
     const [cameraOptions, setCameraOptions] = useState<CameraOptions>({
         fov: 75
     });
-
-    const [selectedFont, setSelectedFont] = useState(language === 'en_US' ? "Minecraft Ten" : "Fusion Pixel 10px"); // 当前选中的字体
 
     const [textPanelActiveKeys, setTextPanelActiveKeys] = useState<string[]>(['1']);
 
@@ -119,7 +148,7 @@ const App: React.FC = () => {
         localStorage.setItem('workspace', JSON.stringify(workspace));
         setLastWorkshop(null);
     }, [selectedFont, texts]);
-    
+
     return (
         <ConfigProvider
             theme={{
@@ -148,32 +177,16 @@ const App: React.FC = () => {
                     {/* 左侧配置面板 */}
                     <Sider width={300} style={{ background: "#F5F5F5", padding: 16, overflow: "auto", marginBottom: 16 }}>
                         <Flex vertical gap={"middle"} style={{ width: "100%" }}>
-                            <Collapse defaultActiveKey={["camera"]} bordered={false} style={{ background: "white", boxShadow: "0 2px 16px rgba(0, 0, 0, 0.05)" }}>
-                                <Panel header={gLang('cameraSettings')} key="camera">
-                                    <Form.Item label={gLang('font')}>
-                                        <Select
-                                            value={selectedFont}
-                                            onChange={(value) => setSelectedFont(value)}
-                                            style={{ width: "100%" }}
-                                        >
-                                            {Object.keys(fontsMap).map((fontName) => (
-                                                <Select.Option key={fontName} value={fontName}>
-                                                    {fontName}
-                                                </Select.Option>
-                                            ))}
-                                        </Select>
-                                    </Form.Item>
-                                    <Form.Item label={gLang('perspective', {angle: cameraOptions.fov})} style={{ marginBottom: 0 }}>
-                                        <Slider
-                                            min={1}
-                                            max={120}
-                                            step={1}
-                                            value={cameraOptions.fov}
-                                            onChange={(val) => setCameraOptions({ ...cameraOptions, fov: val })}
-                                        />
-                                    </Form.Item>
-                                </Panel>
-                            </Collapse>
+                            <SceneAndCameraSettingsPanel
+                                selectedFont={selectedFont}
+                                setSelectedFont={setSelectedFont}
+                                fontsMap={fontsMap}
+                                setFontsMap={setFontsMap}
+                                customFonts={customFonts}
+                                setCustomFonts={setCustomFonts}
+                                cameraOptions={cameraOptions}
+                                setCameraOptions={setCameraOptions}
+                            />
                             {texts.length > 0 &&
                                 <Collapse activeKey={textPanelActiveKeys} onChange={setTextPanelActiveKeys} bordered={false} style={{ background: "white", boxShadow: "0 2px 16px rgba(0, 0, 0, 0.05)" }}>
                                     {texts.map((text, index) => (
@@ -327,7 +340,7 @@ const App: React.FC = () => {
                         </Flex>
 
                         {/*顶部悬浮*/}
-                        <Flex style={{ position: "absolute", top: 8, zIndex: 1, width: "100%" }} justify={'center'}>
+                        <Flex style={{ position: "absolute", top: 16, zIndex: 1, width: "100%" }} justify={'center'}>
                             {lastWorkshop && (
                                 <Alert
                                     message={gLang('lastSaved.message', { count: lastWorkshop.texts.length })}

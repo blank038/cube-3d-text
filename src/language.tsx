@@ -71,6 +71,13 @@ export const languageConfig: Readonly<LanguageConfig> = {
             message: "是否恢复到上次的场景？({count}行文字)",
             apply: "恢复",
             delete: "删除"
+        },
+        customFont: {
+            namePlaceHolder: "自定义字体",
+            upload: "上传字体",
+            nameEmpty: "请先输入字体名称（用于显示在字体列表里的名称）",
+            success: "字体添加成功",
+            failed: "字体添加失败（详细原因请看控制台）",
         }
     },
     en_US: {

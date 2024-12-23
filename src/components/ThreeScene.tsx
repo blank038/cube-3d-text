@@ -8,6 +8,7 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { useThree } from "@react-three/fiber";
 import { useMessage } from "../contexts/MessageContext";
 import { useLanguage } from "../language";
+import customFontsStore from "../utils/localForageInstance.ts";
 
 interface ThreeSceneProps {
     texts: Text3DData[];
@@ -46,34 +47,48 @@ const ThreeScene = forwardRef<ThreeSceneHandle, ThreeSceneProps>(({ texts, fontU
         }
         // 加载字体
         const fontLoader = new FontLoader();
-        const startTime = Date.now();
-        fontLoader.load(
-            fontUrl,
-            (font) => {
+        if (fontUrl.startsWith("custom:")) {
+            // 从本地存储加载字体
+            customFontsStore.getItem(fontUrl.replace("custom:", "")).then(fontData => {
+                if (!fontData || typeof fontData !== "string") {
+                    return;
+                }
+                const fontJson = JSON.parse(fontData);
+                const font = fontLoader.parse(fontJson);
                 setFont(font);
                 cachedFonts[fontUrl] = font;
-                const now = Date.now();
-                if (now - startTime > 1000) {
-                    messageApi?.open({
-                        key: 'loadingFont',
-                        type: 'success',
-                        content: gLang('fontSuccess'),
-                        duration: 2,
-                    });
+            });
+        } else {
+            // 从网络加载字体
+            const startTime = Date.now();
+            fontLoader.load(
+                fontUrl,
+                (font) => {
+                    setFont(font);
+                    cachedFonts[fontUrl] = font;
+                    const now = Date.now();
+                    if (now - startTime > 1000) {
+                        messageApi?.open({
+                            key: 'loadingFont',
+                            type: 'success',
+                            content: gLang('fontSuccess'),
+                            duration: 2,
+                        });
+                    }
+                },
+                (progress) => {
+                    const now = Date.now();
+                    if (now - startTime > 1000) {
+                        messageApi?.open({
+                            key: 'loadingFont',
+                            type: 'loading',
+                            content: gLang('fontLoading') + Math.round(progress.loaded),
+                            duration: 60,
+                        });
+                    }
                 }
-            },
-            (progress) => {
-                const now = Date.now();
-                if (now - startTime > 1000) {
-                    messageApi?.open({
-                        key: 'loadingFont',
-                        type: 'loading',
-                        content: gLang('fontLoading') + Math.round(progress.loaded),
-                        duration: 60,
-                    });
-                }
-            }
-        );
+            );
+        }
     }, [fontUrl]); // 每次 fontUrl 变化时重新加载字体
 
     const { scene } = useThree();
