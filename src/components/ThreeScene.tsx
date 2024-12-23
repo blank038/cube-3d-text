@@ -13,6 +13,7 @@ import customFontsStore from "../utils/localForageInstance.ts";
 interface ThreeSceneProps {
     texts: Text3DData[];
     fontUrl: string;
+    globalTextureYOffset: number;
 }
 
 const cachedFonts : {[id: string]: Font} = {}
@@ -21,7 +22,7 @@ export interface ThreeSceneHandle {
     groupRef: React.RefObject<THREE.Group>;
 }
 
-const ThreeScene = forwardRef<ThreeSceneHandle, ThreeSceneProps>(({ texts, fontUrl }, ref) => {
+const ThreeScene = forwardRef<ThreeSceneHandle, ThreeSceneProps>(({ texts, fontUrl, globalTextureYOffset }, ref) => {
 
     const groupRef = useRef<THREE.Group>(null);
 
@@ -123,6 +124,7 @@ const ThreeScene = forwardRef<ThreeSceneHandle, ThreeSceneProps>(({ texts, fontU
                                 key={index}
                                 content={text.content}
                                 opts={text.opts}
+                                globalTextureYOffset={globalTextureYOffset}
                                 font={font}
                                 position={[0, text.opts.y, 0]}
                                 rotation={[text.opts.rotY * (Math.PI / 180), 0, 0]}

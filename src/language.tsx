@@ -137,6 +137,13 @@ export const languageConfig: Readonly<LanguageConfig> = {
             message: "Restore to the last scene? ({count} texts)",
             apply: "Apply",
             delete: "Delete"
+        },
+        customFont: {
+            namePlaceHolder: "Custom Font",
+            upload: "Upload",
+            nameEmpty: "Please input the font name first",
+            success: "Font added successfully",
+            failed: "Font adding failed (please check the console for more details)",
         }
     },
     ja_JP: {
@@ -196,6 +203,13 @@ export const languageConfig: Readonly<LanguageConfig> = {
             message: "前回のシーンに戻りますか？（{count}行）",
             apply: "適用",
             delete: "削除"
+        },
+        customFont: {
+            namePlaceHolder: "カスタムフォント",
+            upload: "アップロード",
+            nameEmpty: "フォント名を入力してください",
+            success: "フォントが追加されました",
+            failed: "フォントの追加に失敗しました（詳細はコンソールを確認してください）"
         }
     },
 };

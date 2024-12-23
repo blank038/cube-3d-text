@@ -346,7 +346,7 @@ export const materialCherry: TextMaterials = {
         repeatX: 1,
         repeatY: 2,
         offsetX: 0,
-        offsetY: 0.1,
+        offsetY: 0,
     } as TextMaterialImageOption,
     back: {
         mode: "color",
@@ -393,7 +393,7 @@ export const materialGrass: TextMaterials = {
         repeatX: 0.5,
         repeatY: 1,
         offsetX: 0,
-        offsetY: 0.1,
+        offsetY: 0,
     } as TextMaterialImageOption,
     back: {
         mode: "color",
@@ -440,7 +440,7 @@ export const materialAtmosphere: TextMaterials = {
         repeatX: 0.4545454545,
         repeatY: 1,
         offsetX: 0,
-        offsetY: 0.1
+        offsetY: 0
     } as TextMaterialImageOption,
     back: {
         mode: "gradient",
@@ -486,7 +486,7 @@ export const materialWinter: TextMaterials = {
         repeatX: 0.5,
         repeatY: 1,
         offsetX: 0,
-        offsetY: 0.1,
+        offsetY: 0,
     } as TextMaterialImageOption,
     back: {
         mode: "color",

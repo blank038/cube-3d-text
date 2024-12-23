@@ -31,7 +31,7 @@ import { materialGradientLightBlue, materialGradientMediumYellow } from "./prese
 import { MessageProvider } from "./contexts/MessageContext";
 import { useLanguage } from "./language.tsx";
 import SceneAndCameraSettingsPanel from "./components/SceneAndCameraSettingsPanel.tsx";
-import { builtinFontsMap } from "./utils/fonts.ts";
+import { builtinFontsMap, builtinFontsTextureYOffset } from "./utils/fonts.ts";
 
 const { Sider, Content } = Layout;
 const { Panel } = Collapse;
@@ -267,6 +267,7 @@ const App: React.FC = () => {
                             cameraOptions={cameraOptions}
                             texts={texts}
                             fontUrl={fontsMap[selectedFont]}
+                            globalTextureYOffset={builtinFontsTextureYOffset[selectedFont] ?? 0}
                         />
                         {/* 添加截图按钮 */}
                         <Flex gap={"small"} style={{ position: "absolute", top: 20, right: 20, zIndex: 1 }}>

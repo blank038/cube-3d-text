@@ -12,6 +12,7 @@ interface Text3DProps {
     content: string;
     opts: TextOptions;
     font: Font;
+    globalTextureYOffset: number;
     position: [number, number, number];
     rotation: [number, number, number];
 }
@@ -20,6 +21,7 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
                                                          content,
                                                          opts,
                                                          font,
+                                                         globalTextureYOffset,
                                                          position,
                                                          rotation
                                                      }, ref) => {
@@ -48,9 +50,10 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
     const textMaterial = useMemo(() =>
         createCubeMaterial(
             opts.materials,
-            boundingBox
+            boundingBox,
+            globalTextureYOffset
         ),
-        [opts.materials, boundingBox]
+        [opts.materials, boundingBox, globalTextureYOffset]
     );
 
     const height = boundingBox.max.y - boundingBox.min.y;
@@ -73,7 +76,7 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
     }, [content, opts.size, opts.depth, font, opts.letterSpacing, opts.spacingWidth, opts.outlineWidth]);
 
     const outlineMaterial = useMemo(() =>
-            createMeshBasicMaterialFromOption(opts.materials.outline, false, [1, 1], [1, 1], { side: THREE.BackSide }),
+            createMeshBasicMaterialFromOption(opts.materials.outline, false, [1, 1], [1, 1], [0, 0], { side: THREE.BackSide }),
         [opts.materials]
     );
 

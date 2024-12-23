@@ -18,6 +18,7 @@ interface ThreeCanvasProps {
     cameraOptions: CameraOptions;
     texts: Text3DData[];
     fontUrl: string;
+    globalTextureYOffset: number;
 }
 
 const CameraController: React.FC<{ fov: number }> = ({ fov }) => {
@@ -40,7 +41,7 @@ interface ScreenshotProps {
 }
 
 const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref) => {
-    const { texts, cameraOptions, fontUrl } = props;
+    const { texts, cameraOptions, fontUrl, globalTextureYOffset } = props;
     const orbitRef = useRef<OrbitControlsImpl>(null);
     const threeSceneRef = useRef<ThreeSceneHandle>(null);
     const messageApi = useMessage();
@@ -299,6 +300,7 @@ const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref)
                 ref={threeSceneRef}
                 texts={texts}
                 fontUrl={fontUrl}
+                globalTextureYOffset={globalTextureYOffset}
             />
             <OrbitControls ref={orbitRef} enableDamping={false} dampingFactor={0} />
         </Canvas>
