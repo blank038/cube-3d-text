@@ -127,7 +127,7 @@ export const languageConfig: Readonly<LanguageConfig> = {
             stl: "Export STL Model"
         },
         lastSaved: {
-            message: "Restore the last scene? ({count} texts)",
+            message: "Restore to the last scene? ({count} texts)",
             apply: "Apply",
             delete: "Delete"
         }
