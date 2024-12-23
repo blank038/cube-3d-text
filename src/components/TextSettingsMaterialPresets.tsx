@@ -71,6 +71,7 @@ const TextSettingsMaterialPanel: React.FC<TextSettingsMaterialPanelProps> = ({
             <Flex gap={'small'} vertical>
                 {presetMaterials.map((preset) => (
                     <ConfigProvider
+                        key={presetMaterials.indexOf(preset)}
                         theme={{
                             token: {
                                 colorPrimary: iconColor(preset)[0],
