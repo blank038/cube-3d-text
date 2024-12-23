@@ -1,7 +1,7 @@
 // src/App.tsx
 import React, { useState, useRef } from "react";
-import { Layout, Flex, Form, Slider, Collapse, Button, ConfigProvider, Select, Dropdown, Space, Typography } from "antd";
-import { CameraOutlined, GlobalOutlined, ReloadOutlined } from "@ant-design/icons";
+import { Layout, Flex, Form, Slider, Collapse, Button, ConfigProvider, Select, Dropdown, Space, Typography, MenuProps } from "antd";
+import { AppstoreOutlined, BookOutlined, CameraOutlined, CompassOutlined, GlobalOutlined, ReloadOutlined } from "@ant-design/icons";
 import { HappyProvider } from '@ant-design/happy-work-theme';
 import ThreeCanvas, { ThreeCanvasHandle } from "./components/ThreeCanvas";
 import "antd/dist/reset.css";
@@ -65,6 +65,14 @@ const App: React.FC = () => {
         }
     };
 
+    const handleOutputOption: MenuProps['onClick'] = (e) => {
+        if (threeCanvasRef.current) {
+            if (e.key === 'glb' || e.key === 'gltf' || e.key === 'obj' || e.key === 'stl') {
+                threeCanvasRef.current.exportScene(e.key);
+            }
+        }
+    };
+
     const handleResetCamera = () => {
         if (threeCanvasRef.current) {
             threeCanvasRef.current.resetCamera();
@@ -78,6 +86,9 @@ const App: React.FC = () => {
                     colorPrimary: '#333333',
                 },
                 components: {
+                    Button: {
+                        primaryShadow: '0 2px 0 rgba(0, 0, 0, 0.08)'
+                    },
                     Dropdown: {
                         controlItemBgActive: 'rgba(0, 0, 0, 0.12)',
                         controlItemBgActiveHover: 'rgba(0, 0, 0, 0.2)',
@@ -166,16 +177,42 @@ const App: React.FC = () => {
                                 {gLang('resetCamera')}
                             </Button>
                             <HappyProvider>
-                                <Button
+                                <Dropdown.Button
                                     type="primary"
-                                    icon={<CameraOutlined />}
+                                    menu={{
+                                        items: [
+                                            {
+                                                key: 'glb',
+                                                label: gLang('output.glb'),
+                                                icon: <AppstoreOutlined />
+                                            },
+                                            // {
+                                            //     key: 'gltf',
+                                            //     label: gLang('output.gltf'),
+                                            //     icon: <AppstoreOutlined />
+                                            // },
+                                            {
+                                                key: 'obj',
+                                                label: gLang('output.obj'),
+                                                icon: <BookOutlined />
+                                            },
+                                            {
+                                                key: 'stl',
+                                                label: gLang('output.stl'),
+                                                icon: <CompassOutlined />
+                                            },
+                                        ],
+                                        onClick: handleOutputOption
+                                    }}
                                     onClick={handleScreenshot}
                                 >
+                                    <CameraOutlined />
                                     {gLang('screenshot')}
-                                </Button>
+                                </Dropdown.Button>
                             </HappyProvider>
+
                         </Flex>
-                        <Flex style={{ position: "absolute", bottom: 20, right: 20, zIndex: 1 }}>
+                        <Flex style={{ position: "absolute", bottom: 8, right: 8, zIndex: 1 }}>
                             <Dropdown
                                 menu={{
                                     items: [
@@ -188,12 +225,14 @@ const App: React.FC = () => {
                                     onSelect: ({ key }) => setLanguage(key)
                                 }}
                             >
-                                <Typography.Text type={'secondary'} style={{ cursor: 'default', userSelect: 'none' }}>
-                                    <Space>
-                                        <GlobalOutlined />
-                                        {gLang(language)}
-                                    </Space>
-                                </Typography.Text>
+                                <Button type={'text'}>
+                                    <Typography.Text type={'secondary'}>
+                                        <Space size={'small'}>
+                                            <GlobalOutlined />
+                                            {gLang(language)}
+                                        </Space>
+                                    </Typography.Text>
+                                </Button>
                             </Dropdown>
                         </Flex>
                     </Content>

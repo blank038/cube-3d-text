@@ -1,5 +1,4 @@
-// src/components/ThreeScene.tsx
-import React, { Suspense, useRef, useState, useEffect } from "react";
+import React, { Suspense, useRef, useState, useEffect, useImperativeHandle, forwardRef } from "react";
 import * as THREE from "three";
 import { Html } from "@react-three/drei";
 import { Font } from "three/examples/jsm/loaders/FontLoader.js";
@@ -20,13 +19,17 @@ interface ThreeSceneProps {
 
 const cachedFonts : {[id: string]: Font} = {}
 
-const ThreeScene: React.FC<ThreeSceneProps> = ({
-                                                   text1,
-                                                   text2,
-                                                   text1Options,
-                                                   text2Options,
-                                                   fontUrl
-                                               }) => {
+export interface ThreeSceneHandle {
+    groupRef: React.RefObject<THREE.Group>;
+}
+
+const ThreeScene = forwardRef<ThreeSceneHandle, ThreeSceneProps>(({ text1, text2, text1Options, text2Options, fontUrl }, ref) => {
+
+    const groupRef = useRef<THREE.Group>(null);
+
+    useImperativeHandle(ref, () => ({
+        groupRef
+    }));
 
     const { gLang } = useLanguage();
     
@@ -100,7 +103,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
             {/* 创建文本网格 */}
             <Suspense fallback={<Html>Loading...</Html>}>
                 {font && (
-                    <group>
+                    <group ref={groupRef}>
                         <Text3D
                             content={text1}
                             opts={text1Options}
@@ -129,6 +132,6 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
             {/*/>*/}
         </>
     );
-};
+});
 
 export default ThreeScene;

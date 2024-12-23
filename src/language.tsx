@@ -16,7 +16,7 @@ type LanguageContextType = {
 export const languageConfig: Readonly<LanguageConfig> = {
     zh_CN: {
         zh_CN: "中文",
-        en_US: "EN",
+        en_US: "English",
         ja_JP: "日本語",
         defaultText1: "我的世界",
         defaultText2: "中国版",
@@ -60,10 +60,16 @@ export const languageConfig: Readonly<LanguageConfig> = {
         texture: "纹理",
         fontSuccess: "字体加载完成!",
         fontLoading: "字体加载中...",
+        output: {
+            glb: "导出 GLB 模型（包含纹理）",
+            gltf: "导出 GLTF 模型",
+            obj: "导出 OBJ 模型（不包含纹理）",
+            stl: "导出 STL 模型（不包含纹理）"
+        }
     },
     en_US: {
         zh_CN: "中文",
-        en_US: "EN",
+        en_US: "English",
         ja_JP: "日本語",
         defaultText1: "MineCraft",
         defaultText2: "Bedrock Edition",
@@ -107,10 +113,16 @@ export const languageConfig: Readonly<LanguageConfig> = {
         texture: "Texture",
         fontSuccess: "Font loaded successfully!",
         fontLoading: "Loading font...",
+        output: {
+            glb: "Export GLB Model",
+            gltf: "Export GLTF Model",
+            obj: "Export OBJ Model",
+            stl: "Export STL Model"
+        }
     },
     ja_JP: {
         zh_CN: "中文",
-        en_US: "EN",
+        en_US: "English",
         ja_JP: "日本語",
         defaultText1: "マインクラフト",
         defaultText2: "ベッドロック エディション",
@@ -154,6 +166,12 @@ export const languageConfig: Readonly<LanguageConfig> = {
         texture: "テクスチャ",
         fontSuccess: "フォントが読み込まれました！",
         fontLoading: "フォントを読み込み中...",
+        output: {
+            glb: "GLBモデルをエクスポート",
+            gltf: "GLTFモデルをエクスポート",
+            obj: "OBJモデルをエクスポート",
+            stl: "STLモデルをエクスポート"
+        }
     },
 };
 
