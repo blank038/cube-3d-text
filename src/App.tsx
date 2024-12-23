@@ -41,7 +41,8 @@ const App: React.FC = () => {
         rotY: 0,
         materials: materialGradientMediumYellow,
         outlineWidth: 0.4,
-        letterSpacing: 1.0
+        letterSpacing: 1.0,
+        spacingWidth: 0.2
     });
 
     const [text2Options, setText2Options] = useState<TextOptions>({
@@ -51,10 +52,11 @@ const App: React.FC = () => {
         rotY: 0,
         materials: materialGradientLightBlue,
         outlineWidth: 0.5,
-        letterSpacing: 1.5
+        letterSpacing: 1.5,
+        spacingWidth: 0.2
     });
 
-    const [selectedFont, setSelectedFont] = useState("REEJI Taiko Magic"); // 当前选中的字体
+    const [selectedFont, setSelectedFont] = useState(language === 'en_US' ? "Minecraft Ten" : "Fusion Pixel 10px"); // 当前选中的字体
 
     // 创建一个引用来访问 ThreeCanvas 的截图和重置功能
     const threeCanvasRef = useRef<ThreeCanvasHandle>(null);

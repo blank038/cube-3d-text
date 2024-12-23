@@ -6,6 +6,7 @@ export interface TextOptions {
     materials: TextMaterials;
     outlineWidth: number;
     letterSpacing: number;
+    spacingWidth: number;
 }
 
 export interface TextMaterials {

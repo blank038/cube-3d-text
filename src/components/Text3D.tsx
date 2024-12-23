@@ -29,7 +29,6 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
         if (!content) {
             return new THREE.BufferGeometry();
         }
-        const letterSpacing = opts.letterSpacing || 0;
         return createSpacedTextGeometry({
             text: content,
             font,
@@ -37,9 +36,10 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
             height: opts.depth,
             curveSegments: 12,
             bevelEnabled: false,
-            letterSpacing
+            letterSpacing: opts.letterSpacing,
+            spacingWidth: opts.spacingWidth
         });
-    }, [content, opts.size, opts.depth, font, opts.letterSpacing]);
+    }, [content, opts.size, opts.depth, font, opts.letterSpacing, opts.spacingWidth]);
 
     // 获取文字几何体的高度
     const boundingBox: THREE.Box3 = new THREE.Box3().setFromObject(new THREE.Mesh(geometry));
@@ -67,9 +67,10 @@ const Text3D = forwardRef<THREE.Group, Text3DProps>(({
             outlineWidth: opts.outlineWidth * (height / 10),
             curveSegments: 12,
             bevelEnabled: false,
-            letterSpacing: opts.letterSpacing
+            letterSpacing: opts.letterSpacing,
+            spacingWidth: opts.spacingWidth
         });
-    }, [content, opts.size, opts.depth, font, opts.letterSpacing, opts.outlineWidth]);
+    }, [content, opts.size, opts.depth, font, opts.letterSpacing, opts.spacingWidth, opts.outlineWidth]);
 
     const outlineMaterial = useMemo(() =>
             createMeshBasicMaterialFromOption(opts.materials.outline, false, [1, 1], [1, 1], { side: THREE.BackSide }),

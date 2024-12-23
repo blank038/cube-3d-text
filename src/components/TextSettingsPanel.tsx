@@ -65,6 +65,15 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     onChange={(val) => onTextOptionsChange({ ...textOptions, letterSpacing: val })}
                 />
             </Form.Item>
+            <Form.Item label={`${gLang('spacingWidth')} (${textOptions.spacingWidth.toFixed(1) ?? "1.0"})`}>
+                <Slider
+                    min={-0.2}
+                    max={1}
+                    step={0.05}
+                    value={textOptions.spacingWidth}
+                    onChange={(val) => onTextOptionsChange({ ...textOptions, spacingWidth: val })}
+                />
+            </Form.Item>
             <Form.Item label={`${gLang('thickness')} (${textOptions.depth.toFixed(1)})`}>
                 <Slider
                     min={1}
@@ -72,6 +81,15 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                     step={1}
                     value={textOptions.depth}
                     onChange={(val) => onTextOptionsChange({ ...textOptions, depth: val })}
+                />
+            </Form.Item>
+            <Form.Item label={`${gLang('outlineSize')} (${textOptions.outlineWidth.toFixed(1)})`}>
+                <Slider
+                    min={0}
+                    max={1.0}
+                    step={0.05}
+                    value={textOptions.outlineWidth}
+                    onChange={(val) => onTextOptionsChange({ ...textOptions, outlineWidth: val })}
                 />
             </Form.Item>
             <Form.Item label={gLang('texture')} layout={'vertical'}>
@@ -90,15 +108,6 @@ const TextSettingsPanel: React.FC<TextSettingsPanelProps> = ({
                         />
                     )}
                 </Flex>
-            </Form.Item>
-            <Form.Item label={`${gLang('outlineSize')} (${textOptions.outlineWidth.toFixed(1)})`}>
-                <Slider
-                    min={0}
-                    max={1.0}
-                    step={0.05}
-                    value={textOptions.outlineWidth}
-                    onChange={(val) => onTextOptionsChange({ ...textOptions, outlineWidth: val })}
-                />
             </Form.Item>
         </>
     );

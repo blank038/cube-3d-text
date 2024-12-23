@@ -1,6 +1,6 @@
 // src/utils/createSpacedTextGeometry.ts
 import * as THREE from "three";
-import { Font, FontData } from "three/examples/jsm/loaders/FontLoader.js";
+import { Font } from "three/examples/jsm/loaders/FontLoader.js";
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import * as ClipperLib from 'clipper-lib';
@@ -74,15 +74,10 @@ const ensureWindingOrder = (shape: THREE.Shape, curveSegments: number = 12): THR
     return shape;
 };
 
-interface ExtendedFontData extends FontData {
-    metrics: {
-        advanceWidth: number;
-    };
-}
-
 interface CreateSpacedTextGeometryOptions {
     text: string;
     font: Font;
+    spacingWidth: number;
     size: number;
     height: number;
     curveSegments: number;
@@ -93,6 +88,7 @@ interface CreateSpacedTextGeometryOptions {
 export const createSpacedTextGeometry = ({
                                              text,
                                              font,
+                                             spacingWidth,
                                              size,
                                              height,
                                              curveSegments,
@@ -108,9 +104,9 @@ export const createSpacedTextGeometry = ({
         const char = text[i];
         if (char === " ") {
             // Handle space: set spacing based on font's space width
-            const metrics = (font.data as ExtendedFontData).metrics;
-            const spaceWidth = metrics && metrics.advanceWidth ? (metrics.advanceWidth * size / 1000) : (size * 0.3);
-                offsetX += spaceWidth + letterSpacing * spacing;
+            // const metrics = (font.data as ExtendedFontData).metrics;
+            const spaceWidth = size * spacingWidth;
+            offsetX += spaceWidth + letterSpacing * spacing;
             continue;
         }
 
@@ -172,6 +168,7 @@ const offsetShape = (shape: THREE.Shape, offset: number): THREE.Shape[] => {
 interface CreateSpacedTextOutlineGeometryOptions {
     text: string;
     font: Font;
+    spacingWidth: number;
     size: number;
     height: number;
     outlineWidth: number;
@@ -183,6 +180,7 @@ interface CreateSpacedTextOutlineGeometryOptions {
 export const createSpacedTextGeometryOutline = ({
                                                     text,
                                                     font,
+                                                    spacingWidth,
                                                     size,
                                                     height,
                                                     outlineWidth,
@@ -199,8 +197,9 @@ export const createSpacedTextGeometryOutline = ({
         const char = text[i];
         if (char === " ") {
             // 处理空格：根据字体的空格宽度设置间距
-            const metrics = (font.data as ExtendedFontData).metrics;
-            const spaceWidth = metrics && metrics.advanceWidth ? (metrics.advanceWidth * size / 1000) : (size * 0.3);
+            //const metrics = (font.data as ExtendedFontData).metrics;
+            //const spaceWidth = metrics && metrics.advanceWidth ? (metrics.advanceWidth * size / 1000) : (size * 0.2);
+            const spaceWidth = size * spacingWidth;
             offsetX += spaceWidth + letterSpacing * spacing;
             continue;
         }
