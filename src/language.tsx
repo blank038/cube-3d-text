@@ -57,6 +57,7 @@ export const languageConfig: Readonly<LanguageConfig> = {
         fontSize: "字体大小",
         upDownRotate: "上下旋转",
         upDownPosition: "上下位置",
+        frontBackPosition: "前后位置",
         content: "文本内容",
         texture: "纹理",
         fontSuccess: "字体加载完成!",

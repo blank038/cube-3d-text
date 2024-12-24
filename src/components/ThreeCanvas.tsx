@@ -137,7 +137,7 @@ const ThreeCanvas = forwardRef<ThreeCanvasHandle, ThreeCanvasProps>((props, ref)
                     embedImages: true,
                 });
                 // 转 Blob 二进制并下载
-                // @ts-ignore
+                // @ts-expect-error GLTFExporter types are incomplete
                 const blob = new Blob([glbBuffer], { type: "application/octet-stream" });
                 const url = URL.createObjectURL(blob);
 
